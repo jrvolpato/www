@@ -2,8 +2,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	$produtonome = [];
 	$codigo = $mes+($fase-1)+$escore;
-	$posicao = ($fases.indexOf($fase))+1;
-	console.log($posicao);
+	$posicao = ($fase-1);
+	//console.log($fase);
 	
 	var tabelahtml = '';
 	

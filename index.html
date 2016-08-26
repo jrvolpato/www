@@ -423,7 +423,7 @@
 			if ($('#estrategia1').val() == '0' /*|| $('#estrategia2').val() == '0' || $('#estrategia3').val() == '0' */){ alert('Selecione um mês!'); return false}	
 			$ajaxmes = $('#mes_inicial').val();
 			$ajaxfase = $("input[type='radio'][name='credit-card']:checked").val();
-			//console.log($ajaxfase);
+			console.log($ajaxfase);
 			if ($ajaxfase == 'parto') {$ajaxfase = 1} else if ($ajaxfase == 'cobertura') {$ajaxfase = 3} else {$ajaxfase = 8}
 			$ajaxescore = $('#escoreInputId').val();
 			if ($ajaxescore == 4) {$ajaxescore = 1} else {$ajaxescore = 2}
@@ -431,7 +431,7 @@
 			$ajaxestrategia2 = $('#estrategia2').val();
 			$ajaxestrategia3 = $('#estrategia3').val();
 			//console.log($ajaxmes);
-			//console.log($ajaxfase);
+			console.log($ajaxfase);
 			//console.log($ajaxescore);
 			//console.log($ajaxestrategia1);
 			//console.log($ajaxestrategia2);

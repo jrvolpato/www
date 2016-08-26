@@ -16,7 +16,6 @@
 	<icon src="icon.png" />
     <splash src="splash.png"/>
 	
-    
 	<access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
