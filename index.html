@@ -88,6 +88,7 @@
 			.scorerange div.range p {margin:0;}
 			.scorerange div.range span {font-size:40px;}
 			.jqplot-data-label {text-align: center;text-transform: uppercase;font-weight: normal;line-height: 18px;color:#f1f1f1}
+			#return {position:absolute;top:8px;left:0;visibility:hidden;cursor:pointer;}
 
 			@media all and (max-width: 568px) { 
 				#menu {font-size:20px;height:auto;line-height:inherit;}
@@ -109,6 +110,7 @@
 				.col h3 {margin-top:-10px;}
 				#tabela .col1:after {width: 143px;}
 				#box_foot {font-size:17px;letter-spacing:0;}
+				#return {top:34px;}
 			}
 			
 			@media all and (min-width: 240px) {#chart3 {height:240px; width:240px;} .jqplot-data-label {line-height:10px;font-size:8px;letter-spacing:-1px;}} 
@@ -131,26 +133,7 @@
 	</head>
 	<body>
 		<div id="main">
-			<div id="menu" class="titulo1">CICLO CRIA<span class="titulomes"></span><span class="titulofase"></span><span class="tituloescore"></span></div>
-			<div id="box_mes">
-				<h1 class="titulo1">Mês Inicial</h1>
-				<p>Selecione o mês inicial do Ciclo</p>
-				<select name="mes_inicial" id="mes_inicial">
-					<option value="0" selected>- Mês Inicial -</option>
-					<option value="1">Janeiro</option>
-					<option value="2">Fevereiro</option>
-					<option value="3">Março</option>
-					<option value="4">Abril</option>
-					<option value="5">Maio</option>
-					<option value="6">Junho</option>
-					<option value="7">Julho</option>
-					<option value="8">Agosto</option>
-					<option value="9">Setembro</option>
-					<option value="10">Outubro</option>
-					<option value="11">Novembro</option>
-					<option value="12">Dezembro</option>
-				</select>
-			</div>
+			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO CRIA<span class="titulofase"></span><span class="titulomes"></span><span class="tituloescore"></span></div>
 			<div id="box_fase">
 				<h1 class="titulo1">Fase de Produção</h1>
 				<p>Selecione a fase da Cria</p>
@@ -172,6 +155,25 @@
 					</div>
 					<div class="clear"></div>
 				</div>
+			</div>
+			<div id="box_mes">
+				<h1 class="titulo1">Mês Inicial</h1>
+				<p>Selecione o mês inicial do Ciclo</p>
+				<select name="mes_inicial" id="mes_inicial">
+					<option value="0" selected>- Mês Inicial -</option>
+					<option value="1">Janeiro</option>
+					<option value="2">Fevereiro</option>
+					<option value="3">Março</option>
+					<option value="4">Abril</option>
+					<option value="5">Maio</option>
+					<option value="6">Junho</option>
+					<option value="7">Julho</option>
+					<option value="8">Agosto</option>
+					<option value="9">Setembro</option>
+					<option value="10">Outubro</option>
+					<option value="11">Novembro</option>
+					<option value="12">Dezembro</option>
+				</select>
 			</div>
 			<div id="box_escore">
 				<h1 class="titulo1">Escore da Condição Corporal</h1>
@@ -333,8 +335,8 @@
 					animate: true,
 					series: [
 						{seriesColors: $corhex },
-						{seriesColors: [ "#2E8B57","#DC143C","#2E8B57","#DC143C"]}, //agua/seca/agua/seca
 						{seriesColors: $fcolor }, //Parto amarelo, cobertura azul e desmama cinza;
+						{seriesColors: [ "#2E8B57","#DC143C","#2E8B57","#DC143C"]}, //agua/seca/agua/seca
 						{seriesColors: [ "#182A35","#1B2E3A","#1E333F","#213744","#243B49","#27404F","#2A4454","#2D4859","#304D5F","#335264","#36566A","#395B6F"]}, //mes
 			
 					],
@@ -383,7 +385,7 @@
 			$('#mes_inicial').change(function(){ 
 			//console.log($(this).val()); // the selected options’s value
 			setTimeout(function (){
-			 $('html,body').animate({scrollTop: $("#box_fase").offset().top},'slow'); // Something you want delayed.
+			 $('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); // Something you want delayed.
 			}, 500); // How long do you want the delay to be (in milliseconds)? 
 			$('.titulomes').text(' • '+GetMonthName($(this).val()));
 			
@@ -392,7 +394,7 @@
 			$('#box_fase input:radio').click(function(){ 
 			//console.log($(this).val()); // the selected options’s value
 			setTimeout(function (){
-			 $('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); // Something you want delayed.
+			 $('html,body').animate({scrollTop: $("#box_mes").offset().top},'slow'); // Something you want delayed.
 			}, 500); // How long do you want the delay to be (in milliseconds)? 
 			$('.titulofase').text(' • '+$(this).val());
 			});
@@ -413,6 +415,7 @@
 			if ($ecc == ''){ alert('Selecione um escore!');$('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); return false}
 			$('#box_mes,#box_fase,#box_escore,#box_gerar').hide();
 			$('#menu').toggleClass('menubranco');
+			$('#return').css('visibility','visible');
 			$('#box_donut').show();
 			$('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow');
 			plotar();
@@ -458,9 +461,18 @@
 			
 			$('#gorestart').click(function(){
 			$('#menu').toggleClass('menubranco');
+			$('#return').css('visibility','hidden');
 			location.reload();
 			$(document).scrollTop(0);
 			});
+			
+			$('#return').click(function(){
+			$('#menu').toggleClass('menubranco');
+			$('#return').css('visibility','hidden');
+			location.reload();
+			$(document).scrollTop(0);
+			})
+			
 			
 			$("select.selectmesestrategia").change(function () {
 			    $("select.selectmesestrategia option[value='" + $(this).data('index') + "']").prop('disabled', false);
@@ -471,6 +483,7 @@
 			
 		        function printDiv(theid)
 				{
+					$('#box_estrategia_content').animate({ 'zoom': 0.5 });
 					html2canvas([document.getElementById(theid)], { 
 						onrendered: function(canvas)  
 						{
@@ -480,6 +493,7 @@
 								'Ciclo Minerthal Cria',
 								img,
 								null);
+							$('#box_estrategia_content').animate({ 'zoom': 1 });
 						}
 					});
 				}
