@@ -483,9 +483,7 @@
 			
 		        function printDiv(theid)
 				{
-					var useWidth = document.getElementById("tabela").style.width;
 					html2canvas([document.getElementById(theid)], { 
-						width: useWidth,
 						onrendered: function(canvas)  
 						{
 							var img = canvas.toDataURL();
@@ -501,3 +499,12 @@
 		</script>
 	</body>
 </html>
+
+
+
+
+
+
+
+
+
