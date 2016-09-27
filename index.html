@@ -483,8 +483,9 @@
 			
 		        function printDiv(theid)
 				{
-					$('#box_estrategia_content').animate({ 'zoom': 0.5 });
+					var useWidth = document.getElementById("tabela").style.width;
 					html2canvas([document.getElementById(theid)], { 
+						width: useWidth,
 						onrendered: function(canvas)  
 						{
 							var img = canvas.toDataURL();
@@ -493,7 +494,6 @@
 								'Ciclo Minerthal Cria',
 								img,
 								null);
-							$('#box_estrategia_content').animate({ 'zoom': 1 });
 						}
 					});
 				}
@@ -501,12 +501,3 @@
 		</script>
 	</body>
 </html>
-
-
-
-
-
-
-
-
-
