@@ -91,7 +91,7 @@
 			#return {position:absolute;top:8px;left:0;visibility:hidden;cursor:pointer;}
 
 			@media all and (max-width: 568px) { 
-				#menu {font-size:20px;height:auto;line-height:inherit;}
+				
 				h1 {font-size:50px;line-height:50px;}
 				p {font-size:16px;margin-bottom:15px;line-height:20px;}
 				#mes_inicial {width:90%;}
@@ -110,9 +110,9 @@
 				.col h3 {margin-top:-10px;}
 				#tabela .col1:after {width: 143px;}
 				#box_foot {font-size:17px;letter-spacing:0;}
-				#return {top:34px;}
+				#menu {font-size:20px;}
 			}
-			
+			#menu {height:auto;line-height:inherit;}
 			@media all and (min-width: 240px) {#chart3 {height:240px; width:240px;} .jqplot-data-label {line-height:10px;font-size:8px;letter-spacing:-1px;}} 
 			@media all and (min-width: 320px) {#chart3 {height:320px; width:320px;} .jqplot-data-label {line-height:12px;font-size:10px;letter-spacing:-1px;}}
 			@media all and (min-width: 384px) {#chart3 {height:375px; width:375px;} .jqplot-data-label {line-height:13px;font-size:11px;letter-spacing:-1px;}}
@@ -120,6 +120,7 @@
 			@media all and (min-width: 600px) {#chart3 {height:568px; width:568px;} .jqplot-data-label {line-height:14px;font-size:12px;letter-spacing:-1px;}}
 			@media all and (min-width: 667px) {#chart3 {height:667px; width:667px;} .jqplot-data-label {line-height:16px;font-size:14px;letter-spacing:-1px;}}
 			@media all and (max-width: 900px) {#box_estrategia_content {overflow-x:scroll;}}
+			@media all and (max-width: 320px) {#return {width:30px;top:4px;}}
 
 		</style>
 	<script type="text/javascript">
@@ -133,7 +134,7 @@
 	</head>
 	<body>
 		<div id="main">
-			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO CRIA<span class="titulofase"></span><span class="titulomes"></span><span class="tituloescore"></span></div>
+			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO CRIA<br/><span class="titulofase"></span><span class="titulomes"></span><span class="tituloescore"></span></div>
 			<div id="box_fase">
 				<h1 class="titulo1">Fase de Produção</h1>
 				<p>Selecione a fase da Cria</p>
@@ -396,7 +397,7 @@
 			setTimeout(function (){
 			 $('html,body').animate({scrollTop: $("#box_mes").offset().top},'slow'); // Something you want delayed.
 			}, 500); // How long do you want the delay to be (in milliseconds)? 
-			$('.titulofase').text(' • '+$(this).val());
+			$('.titulofase').text(''+$(this).val());
 			});
 			
 			$('#escoreInputId').change(function(){ 
@@ -481,8 +482,15 @@
 			    $(this).find("option[value='" + this.value + "']:not([value=''])").prop('disabled', false);
 			    });
 			
+				var $confirma = '';
+			
 		        function printDiv(theid)
 				{
+					if ($confirma != 'ok') {
+						alert ("Deixe visivel a coluna que quer compartilhar e pressione novamente o botão Compartilhar");
+						$confirma = 'ok';
+						return false
+					}
 					html2canvas([document.getElementById(theid)], { 
 						onrendered: function(canvas)  
 						{
@@ -499,11 +507,6 @@
 		</script>
 	</body>
 </html>
-
-
-
-
-
 
 
 
