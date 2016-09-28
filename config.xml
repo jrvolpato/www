@@ -51,6 +51,7 @@
 	</feature>
 	
 	<plugin spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" source="git" />
+	<plugin name="org.apache.cordova.splashscreen" spec="1.0.0" source="pgb" />
 	
 	
 	
