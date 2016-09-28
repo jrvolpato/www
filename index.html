@@ -365,8 +365,13 @@
 					gridPadding: {top:0, right:0, bottom:0, left:0}
 					//,legend: { show:true, location: 'e' }
 				});	
+				
+				$(window).resize(function() {
+				          plot3.replot( { resetAxes: true } );
+				    });
 			}
-			
+		
+    	
 			
 			$('#escoreInputId').on('input', function(){
 			var ecc = $('#escoreInputId').val();
