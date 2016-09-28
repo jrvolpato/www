@@ -37,6 +37,7 @@
 	  <splash platform="android" qualifier="mdpi" src="res/screens/android/screen-mdpi-portrait.png" />
 	  <splash platform="android" qualifier="hdpi" src="res/screens/android/screen-hdpi-portrait.png" />
 	  <splash platform="android" qualifier="xhdpi" src="res/screens/android/screen-xhdpi-portrait.png" />
+	  <preference name="SplashScreen" value="screen" />
       <preference name="SplashScreenDelay" value="3000" />
       <preference name="ShowSplashScreenSpinner" value="false" />
       <preference name="FadeSplashScreen" value="false" />
