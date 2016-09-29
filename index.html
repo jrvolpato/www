@@ -499,10 +499,13 @@
 					html2canvas([document.getElementById(theid)], { 
 						onrendered: function(canvas)  
 						{
-							var img = canvas.toDataURL();
-							window.plugins.socialsharing.share(
+							var img = canvas.toDataURL("image/png");
+							window.plugins.socialsharing.shareViaEmail(
 								null, 
 								'Ciclo Minerthal Cria',
+								null,
+								null,
+								null,
 								img,
 								null);
 						}
@@ -512,7 +515,4 @@
 		</script>
 	</body>
 </html>
-
-
-
 
