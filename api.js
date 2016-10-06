@@ -3,7 +3,6 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$produtonome = [];
 	$codigo = $mes+($fase-1)+$escore;
 	$posicao = ($fase-1);
-	//console.log($fase);
 	
 	var tabelahtml = '';
 	
@@ -101,14 +100,10 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v =  $('div#consumo div:eq('+$i+')').html(); //b31
-		//console.log($v);
-		$v2 = $('div#pvkg div:eq('+$i+')').html(); //b21
-		//console.log($v2);
-		$v3 = vtop($('div#prodleite div:eq('+$i+')').html()); //b21
-		//console.log($v3);
-		$v4 = ptov((((parseFloat($v)*parseFloat($v2))*10)*(1+(parseFloat($v3)*0.015))).toFixed(2));
-		//console+log($v3);
+		$v =  $('div#consumo div:eq('+$i+')').html();
+		$v2 = $('div#pvkg div:eq('+$i+')').html();
+		$v3 = vtop($('div#prodleite div:eq('+$i+')').html());
+		$v4 = ptov((((parseFloat($v)*parseFloat($v2))*10)*(1+(parseFloat($v3)*15)/1000)).toFixed(2));
  		$('div#consumo div:eq('+$i+')').text($v4);
 	}
 	
@@ -132,7 +127,6 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
 		$('div#ca2 div:eq('+$i+')').text($v3);
-		//console+log ($v2);
 	}
 	
 	tabelahtml='<div class="row" id="p2"><div class="col col1">P (g)</div>';
@@ -149,7 +143,6 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
 		$('div#p2 div:eq('+$i+')').text($v3);
-		//console+log ($v2);
 	}
 
 	tabelahtml='<div class="row" id="pb2"><div class="col col1">PB (g)</div>';
@@ -166,7 +159,6 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
 		$('div#pb2 div:eq('+$i+')').text($v3);
-		//console+log ($v2);
 	}
 	
 	tabelahtml='<div class="row" id="ndt2"><div class="col col1">Energia (g NDT)</div>';
@@ -183,7 +175,6 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
 		$('div#ndt2 div:eq('+$i+')').text($v3);
-		//console+log ($v2);
 	}
 	
 	tabelahtml='<div class="row" id="imsrow" style="display:none"><div class="col col1 rtitulo">IMS</div>';

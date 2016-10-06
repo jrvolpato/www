@@ -73,6 +73,7 @@
 			.clear:after{clear:both}
 			.clear{zoom:1}
 			.third {width:33.33%;float:left;}
+			.half {width:50%;float:left;}
 			#tabela { display: table;margin: 20px auto;text-align: center;max-width: 900px;background:#fff;border-collapse: collapse;} 
 			#tabela .row { display: table-row; } 
 			#tabela .col{ display: table-cell;padding: 20px;border-right: 2px solid #d3af8b;border-left: 2px solid #d3af8b;color: #333;width: 183px;position: relative;font-size:13px;}
@@ -251,13 +252,10 @@
 			</div>
 		</div>
 		<div id="box_foot">
-			<div class="third">
+			<div class="half" style="border-right:1px solid;width:49%">
 				<a class="titulo1" id="gorestart">Home</a>
 			</div>
-			<div class="third" style="border-right:1px solid;border-left:1px solid;width:32%">
-				<a class="titulo1" id="gocompare">Reiniciar</a>
-			</div>
-			<div class="third">
+			<div class="half">
 				<a class="titulo1" id="gohome" onclick="printDiv('box_donut')">Compartilhar</a>
 			</div>
 			<div class="clear"></div>
