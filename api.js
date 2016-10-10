@@ -45,22 +45,22 @@ function geraTabela ($mes,$fase,$escore) {
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+$epoca[$i]+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+$epoca[$i]+"</div>";}
 
-	tabelahtml+='</div><div class="row" id="dadosdavaca"  ><div class="col col1 rtitulo">Dados Vaca</div>';
+	tabelahtml+='</div><div class="row apaga" id="dadosdavaca"><div class="col col1 rtitulo">Dados Vaca</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
 
-	tabelahtml+='</div><div class="row" id="pvkg"  ><div class="col col1 noborder">PV (kg)</div>';
+	tabelahtml+='</div><div class="row apaga" id="pvkg"><div class="col col1 noborder">PV (kg)</div>';
 
 	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+" noborder'>"+$pv[$i]+"</div>";}	
 	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+" noborder'>"+$pv[$i]+"</div>";}
 
-	tabelahtml+='</div><div class="row" id="prodleite" ><div class="col col1">Produção de Leite (l)</div>';
+	tabelahtml+='</div><div class="row apaga" id="prodleite"><div class="col col1">Produção de Leite (l)</div>';
 
 	for ($i = $posicao; $i < 12; $i++) { $posi=($i+(($mes-$posicao)-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$leite[$i]+"</div>";}	
 	for ($i = 0; $i < $posicao; $i++) { $posi=($i+(($mes-$posicao)-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$leite[$i]+"</div>";}
 
-	tabelahtml+='</div><div class="row" id="ingestao" ><div class="col col1">Ingestão MS (kg)</div>';
+	tabelahtml+='</div><div class="row apaga" id="ingestao"><div class="col col1">Ingestão MS (kg)</div>';
 
 	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$MSkg[$i].replace('/\+/', ',')+"</div>";}	
 	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$MSkg[$i].replace('/\+/', ',')+"</div>";}
@@ -187,14 +187,14 @@ function geraTabela ($mes,$fase,$escore) {
 		$('div#ndt2 div:eq('+$i+') span').text($v3);
 	}
 	
-	tabelahtml='<div class="row" id="imsrow" ><div class="col col1 rtitulo">IMS</div>';
+	tabelahtml='<div class="row apaga" id="imsrow"><div class="col col1 rtitulo">IMS</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
 
 	tabelahtml+='</div>';
 
-	tabelahtml+='<div class="row" id="efeito" ><div class="col col1 noborder">Efeito do Suplemento na IMS</div>';
+	tabelahtml+='<div class="row apaga" id="efeito"><div class="col col1 noborder">Efeito do Suplemento na IMS</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+($produtos[$produtonome[$i]][4])+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+($produtos[$produtonome[$i]][4])+"</div>";}
@@ -204,7 +204,7 @@ function geraTabela ($mes,$fase,$escore) {
 	$('#tabela').append(tabelahtml);
 
 
-	tabelahtml='<div class="row" id="ismpasto" ><div class="col col1">IMS Pasto</div></div>';
+	tabelahtml='<div class="row apaga" id="ismpasto"><div class="col col1">IMS Pasto</div></div>';
 	
 	$('#tabela').append(tabelahtml);
 
@@ -222,7 +222,7 @@ function geraTabela ($mes,$fase,$escore) {
 		//console+log(qmes);
 	}
 	
-	tabelahtml='<div class="row" id="imsporcentagem" ><div class="col col1"></div>';
+	tabelahtml='<div class="row apaga" id="imsporcentagem"><div class="col col1"></div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][3])+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][3])+"</div>";}
@@ -231,12 +231,12 @@ function geraTabela ($mes,$fase,$escore) {
 	
 	$('#tabela').append(tabelahtml);
 
-	tabelahtml='<div class="row" ><div class="col col1 rtitulo">Consumo de Nutriente Pasto</div>';
+	tabelahtml='<div class="row apaga"><div class="col col1 rtitulo">Consumo de Nutriente Pasto</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
 
-	tabelahtml+='</div><div class="row" id="consumoca" ><div class="col col1 noborder">Cálcio (g)</div>';
+	tabelahtml+='</div><div class="row apaga" id="consumoca" ><div class="col col1 noborder">Cálcio (g)</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+($porcents[$i+1][0])+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+($porcents[$i+1][0])+"</div>";}
@@ -252,7 +252,7 @@ function geraTabela ($mes,$fase,$escore) {
 		$('div#consumoca div:eq('+$i+')').text($v3);
 	}
 
-	tabelahtml='<div class="row" id="consumop" ><div class="col col1">Fósforo (g)</div>';
+	tabelahtml='<div class="row apaga" id="consumop" ><div class="col col1">Fósforo (g)</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($porcents[$i+1][1])+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($porcents[$i+1][1])+"</div>";}
@@ -268,7 +268,7 @@ function geraTabela ($mes,$fase,$escore) {
 		$('div#consumop div:eq('+$i+')').text($v3);
 	}
 
-	tabelahtml='<div class="row" id="consumopb" ><div class="col col1">Proteína Bruta (g)</div>';
+	tabelahtml='<div class="row apaga" id="consumopb" ><div class="col col1">Proteína Bruta (g)</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($porcents[$i+1][2])+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($porcents[$i+1][2])+"</div>";}
@@ -284,7 +284,7 @@ function geraTabela ($mes,$fase,$escore) {
 		$('div#consumopb div:eq('+$i+')').text($v3);
 	}
 
-	tabelahtml='<div class="row" id="consumondt" ><div class="col col1">Energia (NDT - g)</div>';
+	tabelahtml='<div class="row apaga" id="consumondt" ><div class="col col1">Energia (NDT - g)</div>';
 
 	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($porcents[$i+1][3])+"</div>";}	
 	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($porcents[$i+1][3])+"</div>";}
