@@ -1,4 +1,4 @@
-function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxestrategia3) {
+function geraTabela ($mes,$fase,$escore) {
 
 	$produtonome = [];
 	$codigo = $mes+($fase-1)+$escore;
@@ -12,8 +12,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	
 	tabelahtml+='<div class="row"><div class="col col1"><h3>Estratégia de Suplementação</h3></div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><h3>"+$estrategia[$codigo][$i]+"</h3></div>"; $produtonome[$i]= $estrategia[$codigo][$i];}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><h3>"+$estrategia[$codigo][$i]+"</h3></div>"; $produtonome[$i]= $estrategia[$codigo][$i];}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><h3>Minerthal<br/>"+$estrategia[$codigo][$i]+"</h3></div>"; $produtonome[$i]= $estrategia[$codigo][$i];}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><h3>Minerthal<br/>"+$estrategia[$codigo][$i]+"</h3></div>"; $produtonome[$i]= $estrategia[$codigo][$i];}
 
 	tabelahtml+='</div>	<div class="row"><div class="col col1 noborder"></div>';
 
@@ -22,8 +22,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	tabelahtml+='</div><div class="row"><div class="col col1 noborder">Mês</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+$meses[$i]+"</div>";}
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+$meses[$i]+"</div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder' style='text-transform: capitalize;font-weight:bold'>"+$meses[$i]+"</div>";}
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder' style='text-transform: capitalize;font-weight:bold'>"+$meses[$i]+"</div>";}
 
 	tabelahtml+='</div><div class="row"><div class="col col1">Fase de Produção</div>';		
 
@@ -32,13 +32,13 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	tabelahtml+='</div><div class="row"><div class="col col1">Lactação</div>';
 
-	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$lactacao[$i]+"</div>";}	
-	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$lactacao[$i]+"</div>";}
+	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>Lactação: "+$lactacao[$i]+"</div>";}	
+	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>Lactação: "+$lactacao[$i]+"</div>";}
 
 	tabelahtml+='</div><div class="row"><div class="col col1">Gestação</div>';
 
-	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$gestacao[$i]+"</div>";}	
-	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$gestacao[$i]+"</div>";}
+	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>Gestação: "+$gestacao[$i]+"</div>";}	
+	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>Gestação: "+$gestacao[$i]+"</div>";}
 
 	tabelahtml+='</div><div class="row"><div class="col col1">Período</div>';
 
@@ -65,116 +65,126 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$MSkg[$i].replace('/\+/', ',')+"</div>";}	
 	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$MSkg[$i].replace('/\+/', ',')+"</div>";}
 
-	tabelahtml+='</div><div class="row"><div class="col col1 rtitulo">Exigências/dia</div>';
+	tabelahtml+='</div><div class="row" id="rowfirsta"><div class="col col1 rtitulo">Exigências/dia</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Exigências/dia</div>";}
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Exigências/dia</div>";}
 
 	tabelahtml+='</div><div class="row" id="ca1"><div class="col col1 noborder">Ca (g)</div>';
 
-	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+" noborder'>"+$CA[$i]+"</div>";}	
-	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+" noborder'>"+$CA[$i]+"</div>";}
+	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+" noborder'><span>"+$CA[$i]+"</span>g Ca</div>";}	
+	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+" noborder'><span>"+$CA[$i]+"</span>g Ca</div>";}
 
 	tabelahtml+='</div><div class="row" id="p1"><div class="col col1">P (g)</div>';
 
-	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$P[$i]+"</div>";}	
-	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$P[$i]+"</div>";}
+	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'><span>"+$P[$i]+"</span>g P</div>";}	
+	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'><span>"+$P[$i]+"</span>g P</div>";}
 
 	tabelahtml+='</div><div class="row" id="pb1"><div class="col col1">PB (g)</div>';
 
-	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$PB[$i]+"</div>";}	
-	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+$PB[$i]+"</div>";}
+	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'><span>"+$PB[$i]+"</span>g PB</div>";}	
+	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'><span>"+$PB[$i]+"</span>g PB</div>";}
 
 	tabelahtml+='</div><div class="row" id="ndt1"><div class="col col1">Energia (g NDT)</div>';
 
-	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+Math.round($NDT[$i].replace('/\+/', ','))+"</div>";}	
-	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'>"+Math.round($NDT[$i].replace('/\+/', ','))+"</div>";}
+	for ($i = $posicao; $i < 12; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'><span>"+Math.round($NDT[$i].replace('/\+/', ','))+"</span>g NDT</div>";}	
+	for ($i = 0; $i < $posicao; $i++) { $posi=($i+($mes-$posicao-1)); if ($posi > 11) {$posi = ($posi-12);} if ($posi < 0) {$posi = ($posi+12);} tabelahtml+="<div class='col qmes"+$posi+"'><span>"+Math.round($NDT[$i].replace('/\+/', ','))+"</span>g NDT</div>";}
+	
+	
+	tabelahtml+='</div><div class="row" id="rowfirstb"><div class="col col1 ">Consumo Produto (g/dia)</div>';
+	
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Consumo Produto</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Consumo Produto</div>";}
 
 	tabelahtml+='</div><div class="row" id="consumo"><div class="col col1">Consumo Produto (g/dia)</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][2])+"</div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][2])+"</div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'><span>"+($produtos[$produtonome[$i]][2])+"</span>g/dia</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'><span>"+($produtos[$produtonome[$i]][2])+"</span>g/dia</div>";}
 	
 	tabelahtml+='</div>';
 	
 	$('#tabela').append(tabelahtml);
+	
+	$("#rowfirstb").insertBefore("#rowfirsta");
+	$("#consumo").insertAfter("#rowfirstb");
+	
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v =  $('div#consumo div:eq('+$i+')').html();
+		$v =  $('div#consumo div:eq('+$i+') span').html();
 		$v2 = $('div#pvkg div:eq('+$i+')').html();
 		$v3 = vtop($('div#prodleite div:eq('+$i+')').html());
 		$v4 = ptov((((parseFloat($v)*parseFloat($v2))*10)*(1+(parseFloat($v3)*15)/1000)).toFixed(2));
- 		$('div#consumo div:eq('+$i+')').text($v4);
+ 		$('div#consumo div:eq('+$i+') span').text($v4);
 	}
 	
 	
 	tabelahtml='<div class="row"><div class="col col1 rtitulo">Consumo Nutrientes via Suplemento/dia</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Consumo Nutrientes via Suplemento/dia</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Consumo Nutrientes via Suplemento/dia</div>";}
 
 	tabelahtml+='</div><div class="row" id="ca2"><div class="col col1 noborder">Ca (g)</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+($produtos[$produtonome[$i]][5])+"</div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'>"+($produtos[$produtonome[$i]][5])+"</div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'><span>"+($produtos[$produtonome[$i]][5])+"</span>g Ca</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'><span>"+($produtos[$produtonome[$i]][5])+"</span>g Ca</div>";}
 	
 	tabelahtml+='</div>';
 	
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = $('div#ca2 div:eq('+$i+')').html();
-		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
+		$v = $('div#ca2 div:eq('+$i+') span').html();
+		$v2 = vtop($('div#consumo div:eq('+$i+') span').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
-		$('div#ca2 div:eq('+$i+')').text($v3);
+		$('div#ca2 div:eq('+$i+') span').text($v3);
 	}
 	
 	tabelahtml='<div class="row" id="p2"><div class="col col1">P (g)</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][6])+"</div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][6])+"</div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><span>"+($produtos[$produtonome[$i]][6])+"</span>g P</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><span>"+($produtos[$produtonome[$i]][6])+"</span>g P</div>";}
 
 	tabelahtml+='</div>';
 	
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = $('div#p2 div:eq('+$i+')').html();
-		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
+		$v = $('div#p2 div:eq('+$i+') span').html();
+		$v2 = vtop($('div#consumo div:eq('+$i+') span').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
-		$('div#p2 div:eq('+$i+')').text($v3);
+		$('div#p2 div:eq('+$i+') span').text($v3);
 	}
 
 	tabelahtml='<div class="row" id="pb2"><div class="col col1">PB (g)</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][7])+"</div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][7])+"</div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><span>"+($produtos[$produtonome[$i]][7])+"</span>g PB</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><span>"+($produtos[$produtonome[$i]][7])+"</span>g PB</div>";}
 
 	tabelahtml+='</div>';
 	
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = $('div#pb2 div:eq('+$i+')').html();
-		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
+		$v = $('div#pb2 div:eq('+$i+') span').html();
+		$v2 = vtop($('div#consumo div:eq('+$i+') span').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
-		$('div#pb2 div:eq('+$i+')').text($v3);
+		$('div#pb2 div:eq('+$i+') span').text($v3);
 	}
 	
 	tabelahtml='<div class="row" id="ndt2"><div class="col col1">Energia (g NDT)</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][8])+"</div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'>"+($produtos[$produtonome[$i]][8])+"</div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><span>"+($produtos[$produtonome[$i]][8])+"</span>g NDT</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+"'><span>"+($produtos[$produtonome[$i]][8])+"</span>g NDT</div>";}
 
 	tabelahtml+='</div>';
 	
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = $('div#ndt2 div:eq('+$i+')').html();
-		$v2 = vtop($('div#consumo div:eq('+$i+')').html());
+		$v = $('div#ndt2 div:eq('+$i+') span').html();
+		$v2 = vtop($('div#consumo div:eq('+$i+') span').html());
 		$v3 = ptov(((parseFloat($v)/1000)*parseFloat($v2)).toFixed(2));
-		$('div#ndt2 div:eq('+$i+')').text($v3);
+		$('div#ndt2 div:eq('+$i+') span').text($v3);
 	}
 	
 	tabelahtml='<div class="row" id="imsrow" style="display:none"><div class="col col1 rtitulo">IMS</div>';
@@ -222,7 +232,7 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#consumo div:eq('+$i+')').html());
+		$v = vtop($('div#consumo div:eq('+$i+') span').html());
 		$v2 = vtop($('div#imsporcentagem div:eq('+$i+')').html());
 		$v3 = ptov(((parseFloat($v2)/100)*((parseFloat($v)/1000))).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
@@ -255,8 +265,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#ca1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#ca2 div:eq('+$i+')').html());
+		$v = vtop($('div#ca1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#ca2 div:eq('+$i+') span').html());
 		$v3 = vtop($('div#ismpasto div:eq('+$i+')').html());
 		$v4 = ptov((((parseFloat($v)-parseFloat($v2))/10)/$v3).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
@@ -271,8 +281,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#p1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#p2 div:eq('+$i+')').html());
+		$v = vtop($('div#p1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#p2 div:eq('+$i+') span').html());
 		$v3 = vtop($('div#ismpasto div:eq('+$i+')').html());
 		$v4 = ptov((((parseFloat($v)-parseFloat($v2))/10)/$v3).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
@@ -284,8 +294,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#pb1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#pb2 div:eq('+$i+')').html());
+		$v = vtop($('div#pb1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#pb2 div:eq('+$i+') span').html());
 		$v3 = vtop($('div#ismpasto div:eq('+$i+')').html());
 		$v4 = ptov((((parseFloat($v)-parseFloat($v2))/10)/$v3).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
@@ -297,8 +307,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#ndt1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#ndt2 div:eq('+$i+')').html());
+		$v = vtop($('div#ndt1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#ndt2 div:eq('+$i+') span').html());
 		$v3 = vtop($('div#ismpasto div:eq('+$i+')').html());
 		$v4 = ptov((((parseFloat($v)-parseFloat($v2))/10)/$v3).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
@@ -315,8 +325,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#ca1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#ca2 div:eq('+$i+')').html());
+		$v = vtop($('div#ca1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#ca2 div:eq('+$i+') span').html());
 		$v4 = ptov((parseFloat($v2)/parseFloat($v)*100).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#nvsca').append('<div class="col qmes'+$posi+' noborder">'+$v4+'</div>');
@@ -327,8 +337,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#p1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#p2 div:eq('+$i+')').html());
+		$v = vtop($('div#p1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#p2 div:eq('+$i+') span').html());
 		$v4 = ptov((parseFloat($v2)/parseFloat($v)*100).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#nvsp').append('<div class="col qmes'+$posi+'">'+$v4+'</div>');
@@ -339,8 +349,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#pb1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#pb2 div:eq('+$i+')').html());
+		$v = vtop($('div#pb1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#pb2 div:eq('+$i+') span').html());
 		$v4 = ptov((parseFloat($v2)/parseFloat($v)*100).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#nvspb').append('<div class="col qmes'+$posi+'">'+$v4+'</div>');
@@ -351,8 +361,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v = vtop($('div#ndt1 div:eq('+$i+')').html());
-		$v2 = vtop($('div#ndt2 div:eq('+$i+')').html());
+		$v = vtop($('div#ndt1 div:eq('+$i+') span').html());
+		$v2 = vtop($('div#ndt2 div:eq('+$i+') span').html());
 		$v4 = ptov((parseFloat($v2)/parseFloat($v)*100).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#nvsndt').append('<div class="col qmes'+$posi+'">'+$v4+'</div>');
@@ -430,8 +440,8 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	tabelahtml='<div class="row"><div class="col col1 rtitulo">Atendimento</div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'></div>";}
+	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Atendimento</div>";}	
+	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" rtitulo'>Atendimento</div>";}
 
 	tabelahtml+='</div><div class="row" id="atca"><div class="col col1 noborder">Cálcio (%)</div></div>';
 	
@@ -439,11 +449,11 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumoca div:eq('+$i+')').html());
-		$v2 = vtop($('div#ca2 div:eq('+$i+')').html());
-		$v3 = vtop($('div#ca1 div:eq('+$i+')').html());
-		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(2));
+		$v2 = vtop($('div#ca2 div:eq('+$i+') span').html());
+		$v3 = vtop($('div#ca1 div:eq('+$i+') span').html());
+		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(0));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
-		$('#atca').append('<div class="col qmes'+$posi+' noborder">'+$v4+'</div>');
+		$('#atca').append('<div class="col qmes'+$posi+' noborder">'+$v4+'% Ca</div>');
 	}
 
 	tabelahtml='<div class="row" id="atp"><div class="col col1">Fósforo (%)</div></div>';
@@ -452,11 +462,11 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumop div:eq('+$i+')').html());
-		$v2 = vtop($('div#p2 div:eq('+$i+')').html());
-		$v3 = vtop($('div#p1 div:eq('+$i+')').html());
-		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(2));
+		$v2 = vtop($('div#p2 div:eq('+$i+') span').html());
+		$v3 = vtop($('div#p1 div:eq('+$i+') span').html());
+		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(0));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
-		$('#atp').append('<div class="col qmes'+$posi+'">'+$v4+'</div>');
+		$('#atp').append('<div class="col qmes'+$posi+'">'+$v4+'% P</div>');
 	}
 
 	tabelahtml='<div class="row" id="atpb"><div class="col col1">Proteína Bruta (%)</div></div>';
@@ -465,11 +475,11 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumopb div:eq('+$i+')').html());
-		$v2 = vtop($('div#pb2 div:eq('+$i+')').html());
-		$v3 = vtop($('div#pb1 div:eq('+$i+')').html());
-		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(2));
+		$v2 = vtop($('div#pb2 div:eq('+$i+') span').html());
+		$v3 = vtop($('div#pb1 div:eq('+$i+') span').html());
+		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(0));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
-		$('#atpb').append('<div class="col qmes'+$posi+'">'+$v4+'</div>');
+		$('#atpb').append('<div class="col qmes'+$posi+'">'+$v4+'% PB</div>');
 	}	
 
 	tabelahtml='<div class="row" id="atndt"><div class="col col1">Energia (NDT - %)</div></div>';
@@ -478,11 +488,11 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumondt div:eq('+$i+')').html());
-		$v2 = vtop($('div#ndt2 div:eq('+$i+')').html());
-		$v3 = vtop($('div#ndt1 div:eq('+$i+')').html());
-		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(2));
+		$v2 = vtop($('div#ndt2 div:eq('+$i+') span').html());
+		$v3 = vtop($('div#ndt1 div:eq('+$i+') span').html());
+		$v4 = ptov(((parseFloat($v)+parseFloat($v2))/parseFloat($v3)*100).toFixed(0));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
-		$('#atndt').append('<div class="col qmes'+$posi+'">'+$v4+'</div>');
+		$('#atndt').append('<div class="col qmes'+$posi+'">'+$v4+'% NDT</div>');
 	}
 
 	tabelahtml='<div class="row" style="display:none"><div class="col col1 rtitulo">Atendimento Cálcio</div>';
@@ -496,7 +506,7 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumoca div:eq('+$i+')').html());
-		$v2 = vtop($('div#ca2 div:eq('+$i+')').html());
+		$v2 = vtop($('div#ca2 div:eq('+$i+') span').html());
 		$v3 = ptov((parseFloat($v)/(parseFloat($v)+parseFloat($v2))*100).toFixed(2))
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#capasto').append('<div class="col qmes'+$posi+' noborder">'+$v3+'</div>');
@@ -524,7 +534,7 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumop div:eq('+$i+')').html());
-		$v2 = vtop($('div#p2 div:eq('+$i+')').html());
+		$v2 = vtop($('div#p2 div:eq('+$i+') span').html());
 		$v3 = ptov((parseFloat($v)/(parseFloat($v)+parseFloat($v2))*100).toFixed(2))
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#ppasto').append('<div class="col qmes'+$posi+' noborder">'+$v3+'</div>');
@@ -552,7 +562,7 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumopb div:eq('+$i+')').html());
-		$v2 = vtop($('div#pb2 div:eq('+$i+')').html());
+		$v2 = vtop($('div#pb2 div:eq('+$i+') span').html());
 		$v3 = ptov((parseFloat($v)/(parseFloat($v)+parseFloat($v2))*100).toFixed(2))
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#pbpasto').append('<div class="col qmes'+$posi+' noborder">'+$v3+'</div>');
@@ -580,7 +590,7 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 
 	for ($i = 1; $i < 13; $i++) { 
 		$v = vtop($('div#consumondt div:eq('+$i+')').html());
-		$v2 = vtop($('div#ndt2 div:eq('+$i+')').html());
+		$v2 = vtop($('div#ndt2 div:eq('+$i+') span').html());
 		$v3 = ptov((parseFloat($v)/(parseFloat($v)+parseFloat($v2))*100).toFixed(2));
 		$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
 		$('#ndtpasto').append('<div class="col qmes'+$posi+' noborder">'+$v3+'</div>');
@@ -612,7 +622,7 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	$('#tabela').append(tabelahtml);
 
 	for ($i = 1; $i < 13; $i++) { 
-		$v =  $('div#consumo div:eq('+$i+')').html();
+		$v =  $('div#consumo div:eq('+$i+') span').html();
 		$v2 = $('div#custodia div:eq('+$i+')').html(); 
 		$v3 = ptov(((parseFloat($v2))/30000*(parseFloat($v))).toFixed(2));
 		$('div#custodia div:eq('+$i+')').text($v3);
@@ -639,9 +649,9 @@ function geraTabela ($mes,$fase,$escore,$ajaxestrategia1,$ajaxestrategia2,$ajaxe
 	
 	$('#tabela').append(tabelahtml);
 	
-	$(".qmes0, .qmes1, .qmes2, .qmes3, .qmes4, .qmes5, .qmes6, .qmes7, .qmes8, .qmes9, .qmes10, .qmes11 ").css("display", "none");
-	$(".qmes"+($ajaxestrategia1-1)+", .qmes"+($ajaxestrategia2-1)+", .qmes"+($ajaxestrategia3-1)+"").css('display', 'table-cell');
-	
+	//$(".qmes0, .qmes1, .qmes2, .qmes3, .qmes4, .qmes5, .qmes6, .qmes7, .qmes8, .qmes9, .qmes10, .qmes11 ").css("display", "none");
+	//$(".qmes"+($ajaxestrategia1-1)+", .qmes"+($ajaxestrategia2-1)+", .qmes"+($ajaxestrategia3-1)+"").css('display', 'table-cell');
+
 }
 
 

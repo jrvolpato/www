@@ -61,7 +61,7 @@
 			input[type=range].slider:focus::-ms-fill-lower{background:#4a4d4d}
 			input[type=range].slider:focus::-ms-fill-upper{background:#727777}
 			.gera_btn {background: #7ab5a3;border: none;color: #fff;text-transform: uppercase;font-size: 30px;padding: 15px 100px;letter-spacing: 5px;cursor: pointer;}
-			.compara_btn {background: #84825a;border: none;color: #fff;text-transform: uppercase;font-size: 20px;padding: 10px 100px;letter-spacing: 5px;cursor: pointer;display:block;margin:20px auto;}
+			.compara_btn {background: #84825a;border: none;color: #fff;text-transform: uppercase;font-size: 20px;padding: 10px 100px;letter-spacing: 1px;cursor: pointer;display:block;margin:20px auto;}
 			.jqplot-target{ color: #ffffff !important ;}
 			.jqplot-table-legend{color: #666666 !important ;}
 			.jqplot-event-canvas {background:url(ciclo.png) no-repeat center center;background-size:40px 40px}
@@ -78,7 +78,7 @@
 			#tabela .row { display: table-row; } 
 			#tabela .col{ display: table-cell;padding: 20px;border-right: 2px solid #d3af8b;border-left: 2px solid #d3af8b;color: #333;width: 183px;position: relative;font-size:13px;}
 			#tabela .col:after {content:""; background: #ddd; position: absolute; top: 0; left: 20px; height: 1px; width: 183px;}
-			.col.col1 {text-align:left;}
+			.col.col1 {text-align:left;display:none !important;}
 			.col h3 {font-size: 20px;font-weight: 400;padding: 20px;margin: -20px -20px 0;background-color: #eee;min-height:60px;}
 			.col .sacaria {height:185px;}
 			.rtitulo {background:#eee;color:#333;font-weight:bold;}
@@ -90,6 +90,9 @@
 			.scorerange div.range span {font-size:40px;}
 			.jqplot-data-label {text-align: center;text-transform: uppercase;font-weight: normal;line-height: 18px;color:#f1f1f1}
 			#return {position:absolute;top:8px;left:0;visibility:hidden;cursor:pointer;}
+			#grafico {background:#b4b282;}
+			#rowfirstb .col {border-top:12px solid #fff;background:steelblue !important;border-right-color:#fff;border-left-color:#fff;padding-bottom:0;color:#fff;}
+			#consumo .col {border-bottom:12px solid #fff;background:steelblue;border-right-color:#fff;border-left-color:#fff;padding-top:0;color:#fff;font-weight:bolder;}
 
 			@media all and (max-width: 568px) { 
 				
@@ -105,7 +108,7 @@
 				input[type=range].slider {width:55%;}
 				#box_gerar {padding:0;}
 				.gera_btn {padding:15px 0;letter-spacing:0;width:100%;font-size:20px;font-weight:bold;}	
-				.compara_btn {padding:10px 0;width:90%;}			
+				.compara_btn {padding:10px 0;width:90%;font-size:14px;}			
 				#box_copyright {height:auto;line-height:inherit;padding-top:20px;}
 				#tabela .col {padding:10px 20px;font-size:15px;}
 				.col h3 {margin-top:-10px;}
@@ -113,11 +116,13 @@
 				#box_foot {font-size:17px;letter-spacing:0;}
 				#menu {font-size:20px;}
 				#return {width:30px;top:4px;}
+				#tabela {zoom:0.65;}
 			}
 			#menu {height:auto;line-height:inherit;}
 			@media all and (min-width: 240px) {#chart3 {height:240px; width:240px;} .jqplot-data-label {line-height:10px;font-size:8px;letter-spacing:-1px;}} 
 			@media all and (min-width: 320px) {#chart3 {height:320px; width:320px;} .jqplot-data-label {line-height:12px;font-size:10px;letter-spacing:-1px;}}
-			@media all and (min-width: 384px) {#chart3 {height:375px; width:375px;} .jqplot-data-label {line-height:13px;font-size:11px;letter-spacing:-1px;}}
+			@media all and (min-width: 360px) {#chart3 {height:360px; width:360px;} .jqplot-data-label {line-height:12px;font-size:10px;letter-spacing:-1px;}}
+			@media all and (min-width: 384px) {#chart3 {height:384px; width:384px;} .jqplot-data-label {line-height:13px;font-size:11px;letter-spacing:-1px;}}
 			@media all and (min-width: 414px) {#chart3 {height:414px; width:414px;} .jqplot-data-label {line-height:14px;font-size:12px;letter-spacing:-1px;}}
 			@media all and (min-width: 600px) {#chart3 {height:568px; width:568px;} .jqplot-data-label {line-height:14px;font-size:12px;letter-spacing:-1px;}}
 			@media all and (min-width: 667px) {#chart3 {height:667px; width:667px;} .jqplot-data-label {line-height:16px;font-size:14px;letter-spacing:-1px;}}
@@ -138,7 +143,7 @@
 			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO CRIA<br/><span class="titulofase"></span><span class="titulomes"></span><span class="tituloescore"></span></div>
 			<div id="box_fase">
 				<h1 class="titulo1">Fase de Produção</h1>
-				<p>Selecione a fase da Cria</p>
+				<p>Selecione a fase da Cria<br/><span style="font-size:13px">considerando intervalo entre partos de 12 meses e desmama aos 8 meses</span></p></p>
 				<div class="cc-selector">
 					<div class="third">
 						<input id="parto" type="radio" name="credit-card" value="parto" />
@@ -192,71 +197,26 @@
 				<button id="gera_btn" class="gera_btn">Montar Ciclo</button>
 			</div>
 			<div id="box_donut">
-				<h1 class="titulo1">Ciclo Cria</h1>
-				<!--<a id="baixar" class="baixar" href="#" onclick="printDiv('chart3')"><img src="save.png" alt="" title=""/></a>-->
-				<div class="chart3" id="chart3" style="margin:auto"></div>
-				<div id="botoes">
-				<p>Selecione até 3 meses para visualizar as estratégias de suplementação:</p>
-				<select name="estrategia1" id="estrategia1" class="selectmesestrategia" autocomplete="off">
-					<option value="0" selected>Mês I</option>
-					<option value="1">Janeiro</option>
-					<option value="2">Fevereiro</option>
-					<option value="3">Março</option>
-					<option value="4">Abril</option>
-					<option value="5">Maio</option>
-					<option value="6">Junho</option>
-					<option value="7">Julho</option>
-					<option value="8">Agosto</option>
-					<option value="9">Setembro</option>
-					<option value="10">Outubro</option>
-					<option value="11">Novembro</option>
-					<option value="12">Dezembro</option>
-				</select>
-				<select name="estrategia2" id="estrategia2" class="selectmesestrategia">
-					<option value="0" selected>Mês II</option>
-					<option value="1">Janeiro</option>
-					<option value="2">Fevereiro</option>
-					<option value="3">Março</option>
-					<option value="4">Abril</option>
-					<option value="5">Maio</option>
-					<option value="6">Junho</option>
-					<option value="7">Julho</option>
-					<option value="8">Agosto</option>
-					<option value="9">Setembro</option>
-					<option value="10">Outubro</option>
-					<option value="11">Novembro</option>
-					<option value="12">Dezembro</option>
-				</select>
-				<select name="estrategia3" id="estrategia3" class="selectmesestrategia">
-					<option value="0" selected>Mês III</option>
-					<option value="1">Janeiro</option>
-					<option value="2">Fevereiro</option>
-					<option value="3">Março</option>
-					<option value="4">Abril</option>
-					<option value="5">Maio</option>
-					<option value="6">Junho</option>
-					<option value="7">Julho</option>
-					<option value="8">Agosto</option>
-					<option value="9">Setembro</option>
-					<option value="10">Outubro</option>
-					<option value="11">Novembro</option>
-					<option value="12">Dezembro</option>
-				</select>
-				<button class="compara_btn" id="compara_btn">Visualizar</button>
+				<div id="grafico">
+					<h1 class="titulo1">Ciclo Cria</h1>
+					<div class="chart3" id="chart3" style="margin:auto"></div>
 				</div>	
+					<div id="botoes">
+						<button class="compara_btn" id="compara_btn">Visualizar Estratégia de Suplementação</button>
+					</div>		
 				<div id="box_estrategia">
 					<h1 class="titulo1">Estratégia</h1>
-					<!--<a id="salvarestrategia" class="baixar" onclick="printDiv('box_estrategia_content')"><img src="save.png" alt="" title=""/></a>-->
+					<p style="font-size:13px"><em>Considerando um animal de 450 kg de peso vivo e os níveis nutricionais médios encontrados nas pastagens brasileiras.</em></p>
 					<div id="box_estrategia_content"></div>
 				</div>   
 			</div>
 		</div>
 		<div id="box_foot">
 			<div class="half" style="border-right:1px solid;width:49%">
-				<a class="titulo1" id="gorestart">Home</a>
+				<a class="titulo1" id="gorestart">Reiniciar</a>
 			</div>
 			<div class="half">
-				<a class="titulo1" id="gohome" onclick="printDiv('box_donut')">Compartilhar</a>
+				<a class="titulo1" id="gohome" onclick="printDiv('grafico')">Compartilhar Ciclo</a>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -264,6 +224,10 @@
 			Copyright © 2016 Minerthal • www.minerthal.com.br
 		</div>
 		<script type="text/javascript">
+		
+		var $sizei = $('body').width();
+		var $sizei = $sizei+'px';
+		
 			function plotar() {
 				$m1 = $('#mes_inicial').val(); $me1 = GetMonthName($m1).substring(0,3);
 				$m2 = +$m1 + 1;  if ($m2 == 13) {$m2 = 1}; $me2 = GetMonthName($m2).substring(0,3);
@@ -279,9 +243,9 @@
 				$m12 = +$m11 + 1;  if ($m12 == 13) {$m12 = 1}; $me12 = GetMonthName($m12).substring(0,3);
 				
 				$f1 = $('input[name="credit-card"]:checked').val(); //Parto amarelo, cobertura azul e desmama cinza;
-				if ($f1 == 'parto') {$f2 = 'cobertura'; $f3 = 'desmama'; $ff1 = 2; $ff2 = 5; $ff3 = 5; $ff4 = 0; $fcolor = ["#DAA520","#4169E1","#778899"];}
-				if ($f1 == 'cobertura') {$f2 = 'desmama'; $f3 = 'parto'; $ff1 = 5; $ff2 = 5; $ff3 = 2; $ff4 = 2; $fcolor = ["#4169E1","#778899","#DAA520"];}	
-				if ($f1 == 'desmama') {$f2 = 'parto'; $f3 = 'cobertura'; $ff1 = 5; $ff2 = 2; $ff3 = 5; $ff4 = 7; $fcolor = ["#778899","#DAA520","#4169E1"];}
+				if ($f1 == 'parto') {$f2 = [['parto',1],['pós<br/>parto',1],['cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1]]; $fcolor = ["#DAA520","#DAA520","#4169E1","#4169E1","#4169E1","#4169E1","#4169E1","#778899","#778899","#778899","#778899","#778899"];$ff4=0}
+				if ($f1 == 'cobertura') {$f2 = [['cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['parto',1],['pós<br/>parto',1]]; $fcolor = ["#4169E1","#4169E1","#4169E1","#4169E1","#4169E1","#778899","#778899","#778899","#778899","#778899","#DAA520","#DAA520"];$ff4=2}	
+				if ($f1 == 'desmama') {$f2 = [['desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['parto',1],['pós<br/>parto',1],['cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1]]; $fcolor = ["#778899","#778899","#778899","#778899","#778899","#DAA520","#DAA520","#4169E1","#4169E1","#4169E1","#4169E1","#4169E1"];$ff4=7}
 				
 				if ($m1 == 1) {$p1 = 4; $p2 = 5; $p3 = 3; $p4 = 0}
 				if ($m1 == 2) {$p1 = 3; $p2 = 5; $p3 = 4; $p4 = 0}
@@ -327,7 +291,7 @@
 				//console.log ($s1);
 				var s1 = $s1;
 				var s2 = [['Águas',$p1],['Secas',$p2],[$pt3,$p3],[$pt4,$p4]];
-				var s3 = [[$f1,$ff1], [$f2,$ff2], [$f3,$ff3]];
+				var s3 = $f2;
 				var s4 = [[$me1, 1], [$me2, 1], [$me3, 1], [$me4, 1], [$me5, 1], [$me6, 1], [$me7, 1], [$me8, 1], [$me9, 1], [$me10, 1], [$me11, 1], [$me12, 1]];
 
 				var plot3 = $.jqplot('chart3', [s1, s3, s2, s4], {
@@ -427,16 +391,16 @@
 			
 			$('#compara_btn').click(function(){ 
 			//console.log('comparar');
-			if ($('#estrategia1').val() == '0' /*|| $('#estrategia2').val() == '0' || $('#estrategia3').val() == '0' */){ alert('Selecione um mês!'); return false}	
+			//if ($('#estrategia1').val() == '0' /*|| $('#estrategia2').val() == '0' || $('#estrategia3').val() == '0' */){ alert('Selecione um mês!'); return false}	
 			$ajaxmes = $('#mes_inicial').val();
 			$ajaxfase = $("input[type='radio'][name='credit-card']:checked").val();
 			console.log($ajaxfase);
 			if ($ajaxfase == 'parto') {$ajaxfase = 1} else if ($ajaxfase == 'cobertura') {$ajaxfase = 3} else {$ajaxfase = 8}
 			$ajaxescore = $('#escoreInputId').val();
 			if ($ajaxescore == 4) {$ajaxescore = 1} else {$ajaxescore = 2}
-			$ajaxestrategia1 = $('#estrategia1').val();
-			$ajaxestrategia2 = $('#estrategia2').val();
-			$ajaxestrategia3 = $('#estrategia3').val();
+			//$ajaxestrategia1 = $('#estrategia1').val();
+			//$ajaxestrategia2 = $('#estrategia2').val();
+			//$ajaxestrategia3 = $('#estrategia3').val();
 			//console.log($ajaxmes);
 			console.log($ajaxfase);
 			//console.log($ajaxescore);
@@ -445,11 +409,12 @@
 			//console.log($ajaxestrategia3);
 			//$url = 'api.php?mes='+$ajaxmes+'&fase='+$ajaxfase+'&escore='+$ajaxescore+'&estrategia1='+$ajaxestrategia1+'&estrategia2='+$ajaxestrategia2+'&estrategia3='+$ajaxestrategia3;
 			//console.log($url);	
-			geraTabela ($ajaxmes,$ajaxfase,$ajaxescore,$ajaxestrategia1,$ajaxestrategia2,$ajaxestrategia3);  
+			geraTabela ($ajaxmes,$ajaxfase,$ajaxescore);  
 			setTimeout(function (){
 			$('#botoes').hide();	
 			$('#box_estrategia, #box_foot').show();  
 				  $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow'); // Something you want delayed.
+				$('#box_donut').css('overflow-x','scroll');
 			  }, 500); // How long do you want the delay to be (in milliseconds)? 
 			}); 
 			
@@ -458,7 +423,7 @@
 			$('#botoes').show();
 			$('#box_estrategia, #box_foot').hide(); 
 			$( "#box_estrategia_content" ).empty();
-			$('#estrategia1, #estrategia2, #estrategia3').prop('selectedIndex',0); 
+			//$('#estrategia1, #estrategia2, #estrategia3').prop('selectedIndex',0); 
 			  $('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow'); // Something you want delayed.
 			 }, 500); // How long do you want the delay to be (in milliseconds)? 
 			});
@@ -485,7 +450,7 @@
 			    $(this).find("option[value='" + this.value + "']:not([value=''])").prop('disabled', false);
 			    });
 			
-				var $confirma = '';
+				var $confirma = 'ok';
 			
 		        function printDiv(theid)
 				{
@@ -498,14 +463,12 @@
 						onrendered: function(canvas)  
 						{
 							var img = canvas.toDataURL("image/png");
-							window.plugins.socialsharing.shareViaEmail(
-								null, 
-								'Ciclo Minerthal Cria',
-								null,
-								null,
+							var url = 'http://www.minerthal.com.br/hotsite/app/share.php?mes='+$ajaxmes+'&fase='+$ajaxfase+'&score='+$ajaxescore;
+							window.plugins.socialsharing.share(
+								'Confira as estratégias de suplementação para este Ciclo no link:',
 								null,
 								img,
-								null);
+								url);
 						}
 					});
 				}
@@ -513,4 +476,3 @@
 		</script>
 	</body>
 </html>
-
