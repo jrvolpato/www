@@ -143,7 +143,7 @@
 			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO CRIA<br/><span class="titulofase"></span><span class="titulomes"></span><span class="tituloescore"></span></div>
 			<div id="box_fase">
 				<h1 class="titulo1">Fase de Produção</h1>
-				<p>Selecione a fase da Cria<br/><span style="font-size:13px">considerando intervalo entre partos de 12 meses e desmama aos 8 meses</span></p></p>
+				<p>Selecione a fase da Cria<br/><span style="font-size:13px">(Considerando intervalo entre partos de 12 meses e desmama aos 8 meses)</span></p></p>
 				<div class="cc-selector">
 					<div class="third">
 						<input id="parto" type="radio" name="credit-card" value="parto" />
@@ -184,7 +184,7 @@
 			</div>
 			<div id="box_escore">
 				<h1 class="titulo1">Escore da Condição Corporal</h1>
-				<p>Informe se o escore do gado</p>
+				<p>Informe o escore do gado</p>
 				<div class="scorerange">
 					<div class="range"><p>menor<br/><span>3</span></p></div>
 					<div class="range"><p>igual/maior<br/><span>3</span></p></div>
@@ -422,7 +422,6 @@
 			setTimeout(function (){
 			$('#botoes').show();
 			$('#box_estrategia, #box_foot').hide(); 
-			$( "#box_estrategia_content" ).empty();
 			//$('#estrategia1, #estrategia2, #estrategia3').prop('selectedIndex',0); 
 			  $('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow'); // Something you want delayed.
 			 }, 500); // How long do you want the delay to be (in milliseconds)? 
@@ -431,6 +430,7 @@
 			$('#gorestart').click(function(){
 			$('#menu').toggleClass('menubranco');
 			$('#return').css('visibility','hidden');
+			$('#box_estrategia_content').empty();
 			location.reload();
 			$(document).scrollTop(0);
 			});
@@ -438,6 +438,7 @@
 			$('#return').click(function(){
 			$('#menu').toggleClass('menubranco');
 			$('#return').css('visibility','hidden');
+			$('#box_estrategia_content').empty();
 			location.reload();
 			$(document).scrollTop(0);
 			})
