@@ -17,8 +17,8 @@ function geraTabela ($mes,$fase,$escore) {
 
 	tabelahtml+='</div>	<div class="row"><div class="col col1 noborder"></div>';
 
-	for ($i = $mes-1; $i < 12; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'><img src='"+($produtos[$produtonome[$i]][10])+".jpeg' alt='' title='' /></div>";}	
-	for ($i = 0; $i < $mes-1; $i++) { tabelahtml+="<div class='col qmes"+$i+" noborder'><img src='"+($produtos[$produtonome[$i]][10])+".jpeg' alt='' title='' /></div>";}	
+	for ($i = $mes-1; $i < 12; $i++) {$link = ($produtos[$produtonome[$i]][10]); tabelahtml+="<div class='col qmes"+$i+" noborder'><a href='#' onclick='window.open(\"http://www.minerthal.com.br/produtos/"+$link.replace('minert-','minerthal-')+"\", \"_system\")'><img src='"+$link+".jpeg' alt='' title='' /></a></div>";}	
+	for ($i = 0; $i < $mes-1; $i++) {$link = ($produtos[$produtonome[$i]][10]); tabelahtml+="<div class='col qmes"+$i+" noborder'><a href='#' onclick='window.open(\"http://www.minerthal.com.br/produtos/"+$link.replace('minert-','minerthal-')+"\", \"_system\")'><img src='"+$link+".jpeg' alt='' title='' /></a></div>";}		
 
 	tabelahtml+='</div><div class="row"><div class="col col1 noborder">Mês</div>';
 
