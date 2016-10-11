@@ -4,7 +4,7 @@
 	xmlns:gap = "http://phonegap.com/ns/1.0"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	id        = "br.com.minerthal.ciclo"
-	versionCode=""
+	versionCode="1.1.0"
 	version   = "1.1.0">
     
 	<name>Ciclo Minerthal</name>
