@@ -329,12 +329,14 @@ function plotar(){
 		$add = 1;
 
 		$grafico[$x].push($evolucaodeganho);	
+		
+		$dict = {"á":"a", "ã":"a", "ç":"c", "ó":"o", "é":"e", "Á":"A"}
 
 		tabela1 = '<div class="outtabela wrapper" id="line_'+$x+'">';
 		tabela1 += '<div class="container">';
 		tabela1 += '<div class="innertabela">';
 		tabela1 += '<span><h3>Minerthal '+$estrategarecria+'</h3></span>';
-		tabela1 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
+		tabela1 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(/[^\w ]/g, function(char) {return $dict[char] || char;}).replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
 		tabela1 += '<span class="divisao mes">'+$mesdoano+'</span>';
 		tabela1 += '<span class="divisao">'+$periodo+'</span>';
 		//tabela1 += '<span class="divisao">'+$ganhobase+'</span>';
@@ -428,7 +430,7 @@ function plotar(){
 
 			tabela2 = '<div class="innertabela">';
 			tabela2 += '<span><h3>Minerthal '+$estrategarecria+'</h3></span>';
-			tabela2 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
+			tabela2 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(/[^\w ]/g, function(char) {return $dict[char] || char;}).replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
 			tabela2 += '<span class="divisao mes">'+$mesdoano+'</span>';
 			tabela2 += '<span class="divisao">'+$periodo+'</span>';
 			//tabela2 += '<span class="divisao">'+$ganhobase.toFixed(2).replace(".", ",")+'</span>';
@@ -815,7 +817,7 @@ $(document).on('change', '.escolhaproduto', function() {
 	$('.atproteina').last().addClass("pie"+(Math.floor(($atproteinasup/10))*10));
 	$('.atfosforo').last().addClass("pie"+(Math.floor(($atfosforosup/10))*10));
 	$('.atenergia').last().addClass("pie"+(Math.floor(($atenergiasup/10))*10));
-	$('.nopadding img').last().attr("src",(($estrategarecria.replace(' ', '-')).toLowerCase())+".jpeg");
+	$('.nopadding img').last().attr("src",(($estrategarecria.replace(/[^\w ]/g, function(char) {return $dict[char] || char;}).replace(' ', '-')).toLowerCase())+".jpeg");
 
 });
 
