@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="pt">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Ciclo Minerthal</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="src/jquery.jqplot.js"></script>
+		<script type="text/javascript" src="tabela-recria.js"></script>
+		<script type="text/javascript" src="src/html2canvas.min.js"></script>
+		<script type="text/javascript" src="src/jqplot.canvasOverlay.js"></script>
+		<link rel="stylesheet" type="text/css" href="src/jquery.jqplot.css" />
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+		
+		<style type="text/css" media="screen">
+		@font-face {
+		font-family: "Bebas Neua";
+		src: url("BebasNeue Regular.eot?") format("eot"),
+		url("BebasNeue Regular.ttf") format("truetype");
+		}
+		body {letter-spacing: .025em;font-size: 1em;line-height: 1.5;margin: 0;font-family: 'Source Sans Pro', sans-serif;color: #5f5f5f;}
+		html, body, button, input, select, textarea {-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+		#menu {position: fixed;top: 0;width: 100%;z-index: 25;background-color: #4f2b0f;text-align:center;color:#fff;height:60px;line-height:60px;font-size:28px;letter-spacing:0.5px;font-weight:bold;}
+		.menubranco {background-color:#fff !important;color:#4f2b0f !important;}
+		.titulo1 {font-family: 'Bebas Neua', sans-serif;}	
+		#return {position:absolute;top:8px;left:0;visibility:hidden;cursor:pointer;}		
+		
+		#box_fase {background-color: #e9cb96;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}
+		input.idade {border:none;padding:10px;font-size:30px;text-align:center;}
+		
+		#box_mes {background-color: #b4b282;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}	
+		select {background-color: #a3a167;color:#fff;padding: 1em 1.75em;font-size: 20px;font-family: "Bebas Neue", Arial, sans-serif;}
+		#mes_inicial {width:450px;height:60px;text-align-last:center;-moz-text-align-last:center;border:none;-moz-appearance:none;-webkit-text-align-last:center;-webkit-appearance:none;}
+		
+		#box_escore {background-color: #d3af8b;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}
+		.col50 {width:50%;float:left;}
+		#box_escore img {width:20%;}
+		
+		#box_custo {background-color: #5da8a5;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}
+		#box_custo .colcost div.quadrado {display:inline-block;padding:20px;background:#fff;color:#444;margin:10px;text-transform:uppercase;font-weight:bold;}
+		#box_custo .colcost div.quadrado input {padding:10px;margin:10px;font-size: 20px;width: 100px;text-align: center;}
+		
+		#box_custo label input {display: none;}
+		#box_custo label span {height: 20px;width: 20px;border: 1px solid #fff;display: inline-block;position: relative;background:#fff;vertical-align:middle;}
+		#box_custo [type=checkbox]:checked + span:before {content: '\2714';position: absolute;top: -5px;left: 2px;color:violet;}
+
+		.informedadosout {width:60%;margin:auto;}
+		.informedados {float:left;width:50%;}
+		.informedados p {background:#fff; color:#333;padding:5%;margin:2%;width:88%;}
+		.informedados .inputcusto {width:50%;height:30px;margin:20px;font-size:18px;text-align:center;}
+
+		
+		#box_gerar {background-color: #697FB8;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}
+		.gera_btn {background: #7ab5a3;border: none;color: #fff;text-transform: uppercase;font-size: 30px;padding: 15px 100px;letter-spacing: 5px;cursor: pointer;}
+		
+		#box_donut {background-color: #b4b282;padding-top: 4rem;padding-bottom: 4rem;text-align:center;display:none;}
+		.jqplot-target{ color: #ffffff !important ;}
+		.jqplot-table-legend{color: #666666 !important ;}
+		.chart3 {width:1200px;text-align:left;background-color: #b4b282;margin-top:15px !important;margin-bottom:15px !important;}
+		.legenda {width:80%;margin:20px auto;}
+		.legenda .fifth {width:18%;float:left;padding:1%;color:#fff;text-transform:uppercase;font-weight:bold;cursor:pointer;}
+		.convencional {background:blue;}
+		.aditivada  {background:goldenrod;}
+		.proteico {background:red;}
+		.energetico {background:green;}
+		.costumizada {background:purple;}
+		
+		#box_estrategia {background-color: #d3af8b;padding-top: 4rem;padding-bottom: 4rem;text-align:center;display:none;}
+		.wrapper {width:1200px;overflow-x:scroll}
+		.innertabela {float:left;width:200px;background:#fff;}
+		#line_5 .container {width:200px;}
+		
+		.innertabela span {display:block;padding:20px;border-right:2px solid #d3af8b;color:#333;font-size:13px;position:relative;}
+		.innertabela span.divisao:after {content:""; background: #ddd; position: absolute; bottom: 0; left: 5%; height: 1px; width: 90%;}
+		.innertabela span h3 {font-size: 20px;font-weight: 400;padding: 20px;margin: -20px -20px 0;background-color: #eee;min-height:60px;}
+		.innertabela span.blue {background:steelblue;color:#fff;font-weight:bolder;margin-bottom:5px;border-right:2px solid #fff}
+		.innertabela span.theader {background:#eee;color:#333;font-weight:bold}
+		.innertabela span.impact {font-family:impact;}
+		.innertabela span.evol {text-transform:capitalize;}
+		.innertabela span.mes {text-transform:capitalize;font-weight:bold;}
+		.innertabela i {font-style:normal;}
+		.innertabela .ganhos {display:inline;}		
+		.innertabela span select {padding:0;width:100%;}
+		
+		button.proxmes {border: none;width:50%;padding: 10px;background: rgb(51, 51, 51);color: rgb(241, 241, 241);text-transform: uppercase;font-weight: bold;cursor:pointer;}
+		button.apagar {border: none;width:50%;padding: 10px;background: rgb(51, 51, 51);color: rgb(241, 241, 241);text-transform: uppercase;font-weight: bold;cursor:pointer;border-right:1px solid #fff;}
+		button.proxmes.unico {width:100%;}
+		
+		.a0,.a1,.a2,.a3,.a4,.a5,.a6,.a7,.a8,.a9,.a10,.a11,.a12,.a13,.a14,.a15 {display:inline;}
+		
+		img.cattle {width: 15%;vertical-align: middle; margin-right: 5px;}
+		.nopadding {padding:0 !important;}
+		
+		.pie {width: 100px; height: 100px;border-radius: 50%;background: yellowgreen;display:inline-block;background-image:linear-gradient(to right, transparent 50%, #655 0);}
+		.pie::before {content: '';display: block;margin-left: 50%;height: 100%;border-radius: 0 100% 100% 0 / 50%;background-color: inherit;transform-origin: left;}
+		  
+	    .pie0::before {transform: rotate(06deg);}
+	    .pie10::before {transform: rotate(42deg);}
+	    .pie20::before {transform: rotate(78deg);}
+	    .pie30::before {transform: rotate(114deg);}
+	    .pie40::before {transform: rotate(150deg);}
+	    .pie50::before {transform: rotate(06deg);background: #655;}
+	    .pie60::before {transform: rotate(42deg);background: #655;}
+	    .pie70::before {transform: rotate(78deg);background: #655;}
+	    .pie80::before {transform: rotate(114deg);background: #655;}
+	    .pie90::before {transform: rotate(150deg);background: #655;}
+		  
+		  p.pasto {background-color:yellowgreen;margin:0;padding:0;display:inline-block;letter-spacing:0;color:#333;font-size:13px;line-height:13px;}
+		  p.suplemento {background-color:#655;margin:0;padding:0;display:inline-block;letter-spacing:0;color:#333;font-size:13px;line-height:13px;}
+		  p.pasto b, p.suplemento b {background-color:#fff;margin-left:10px;font-weight:normal;padding-left:5px;}	
+		  
+		p.custototal {font-size: 13px;line-height: inherit;color: #333;background: #fff;margin-top: 3px;text-align: left;padding: 10px 20px;}  
+			
+		#box_foot {background-color: #4f2b0f;text-align:center;color:#fff;height:60px;line-height:60px;font-size:28px;letter-spacing:0.5px;font-weight:bold;display:none;}
+		#box_foot .third {width:33.33%;float:left;}
+		#box_copyright {background-color: #fff;text-align:center;color:#697FB8;height:30px;line-height:30px;font-size:11px;letter-spacing:0.5px;font-weight:bold;}
+		h1 {font-size:88px;letter-spacing:4px;margin-bottom:0;text-transform:uppercase;color:#fff;line-height:88px;display:block;} 
+		h1.small {font-size: 50px;margin:0;} 
+		p {color:#fff;font-size:22px;letter-spacing:0.5px;line-height:33px;margin-top:0;margin-bottom:33px;}
+		select {background-color: #a3a167;color:#fff;padding: 1em 1.75em;font-size: 20px;font-family: "Bebas Neue", Arial, sans-serif;}
+		
+		.clear:before,.clear:after{content:"";display:table}
+		.clear:after{clear:both}
+		.clear{zoom:1}
+		#line_1, #line_2, #line_3, #line_4, #line_5 {display:none;}
+		.oculta {display:none;}
+		
+		
+		@media all and (max-width: 568px) { 
+			h1 {font-size:50px;line-height:50px;}
+			p {font-size:16px;margin-bottom:15px;line-height:20px;}
+			#mes_inicial {width:90%;}
+			#box_fase, #box_escore {padding-top:2rem;padding-bottom:2rem;}
+			#box_gerar {padding:0;}
+			.gera_btn {padding:15px 0;letter-spacing:0;width:100%;font-size:20px;font-weight:bold;}	
+			.compara_btn {padding:10px 0;width:90%;font-size:14px;}			
+			#box_copyright {height:auto;line-height:inherit;padding-top:20px;}
+			#box_foot {font-size:17px;letter-spacing:0;}
+			#menu {font-size:16px !important}
+			#return {width:30px;top:4px;}
+			input.idade {width:50%;}
+			.legenda {width:100%;}
+		}
+		@media all and (max-width: 536px) { 
+			.legenda {font-size:10px;}
+		}
+		@media all and (min-width: 240px) {.chart3 {width:240px;} } 
+		@media all and (min-width: 320px) {.chart3 {width:320px;} }
+		@media all and (min-width: 360px) {.chart3 {width:360px;} }
+		@media all and (min-width: 384px) {.chart3 {width:384px;} }
+		@media all and (min-width: 414px) {.chart3 {width:414px;} }
+		@media all and (min-width: 600px) {.chart3 {width:568px;} }
+		@media all and (min-width: 667px) {.chart3 {width:1200px;} }
+		
+		
+		</style>
+		
+	</head>
+	<body>
+		<div id="main">
+			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO RECRIA E ENGORDA<span class="tituloidade"></span><span class="titulomes"></span><span class="tituloentrada"></span><span class="titulosaida"></span></div>
+			
+			<div id="box_fase">
+				<h1 class="titulo1">Idade do Animal</h1>
+				<p>Informe a idade em meses</p>
+				<input type="number" name="idade" id="idade" value="" class="idade" min="1" onblur="rolatela('#box_mes');$('.tituloidade').text(' • '+($(this).val())+' meses');"/>
+			</div>
+			
+			<div id="box_mes">
+				<h1 class="titulo1">Mês Inicial</h1>
+				<p>Selecione o mês de entrada</p>
+				<select name="mes_inicial" id="mes_inicial" onblur="rolatela('#box_escore');$('.titulomes').text(' • '+$meses[($(this).val())-1]);">
+					<option value="0" selected>- Mês Inicial -</option>
+					<option value="1">Janeiro</option>
+					<option value="2">Fevereiro</option>
+					<option value="3">Março</option>
+					<option value="4">Abril</option>
+					<option value="5">Maio</option>
+					<option value="6">Junho</option>
+					<option value="7">Julho</option>
+					<option value="8">Agosto</option>
+					<option value="9">Setembro</option>
+					<option value="10">Outubro</option>
+					<option value="11">Novembro</option>
+					<option value="12">Dezembro</option>
+				</select>
+			</div>
+			
+			<div id="box_escore">
+				<h1 class="titulo1">Peso</h1>
+				<p>Informe os pesos abaixo, em quilos</p>
+				<div class="col50">
+					<img src="cattlein.png"/>
+					<h1 class="titulo1 small">Entrada</h1>
+					<input type="number" name="pesoentrada" id="pesoentrada" value="" class="idade" min="1" onblur="$('.tituloentrada').text(' • '+($(this).val())+' Kg');"/>
+				</div>	
+				<div class="col50">
+					<img src="cattleout.png"/>
+					<h1 class="titulo1 small">Saida</h1>
+					<input type="number" name="pesosaida" id="pesosaida" value="" class="idade" min="1" onblur="rolatela('#box_custo');$('.titulosaida').text(' • '+($(this).val())+' Kg');"/>
+				</div>
+				<div class="clear"></div>	
+			</div>
+			
+			<div id="box_custo">
+				<h1 class="titulo1">Custo</h1>
+				<p>				
+				<label>
+				  <input type="checkbox" name="okcusto" value="ok" id="okcusto" onclick="$('.colcost').toggleClass('oculta');">
+				  <span></span>
+				  Gerar Custos para o Ciclo Recria e Engorda (opcional)
+				</label>
+				</p>
+				<div class="colcost oculta">
+					<p style="margin:30px 0 0 0">1. Informe os valores dos produtos desejados</p>
+					<div class="quadrado">Minerthal Linea 40<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="linea40" id="linea40"/></div>
+					<div class="quadrado">Minerthal Linea 60<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="linea60" id="linea60"/></div>
+					<div class="quadrado">Minert Engorda MD<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="engordamd" id="engordamd"/></div>
+					<div class="quadrado">Minert Terminação MD<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="terminacaomd" id="terminacaomd"/></div>
+					<div class="quadrado">Minert Proteico Águas<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="proteicoaguas" id="proteicoaguas"/></div>
+					<div class="quadrado">Minert Pró-Engorda<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="proengorda" id="proengorda"/></div>
+					<div class="quadrado">Minert MD Seca<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="mdseca" id="mdseca"/></div>
+					<div class="quadrado">Minerseca<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="minerseca" id="minerseca"/></div>
+					<div class="quadrado">Minert Pró-Águas<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="proaguas" id="proaguas"/></div>
+					<div class="quadrado">Minerthal Ureia 20<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="ureia20" id="ureia20"/></div>
+					<div class="quadrado">Minert Pró-Secas<br/>R$ <input type="number" min="0.01" step="0.01" value="" name="prosecas" id="prosecas" onblur="rolatela('#box_gerar');"/></div>
+					<div class="clear"></div>	
+					
+					<p style="margin:30px 0 0 0">2. Infome os dados:</p>
+					<div class="informedadosout">
+						<div class="informedados">
+							<p style="display:none">Rebanho<br/><input type="number" min="1" step="1" value="" name="custorebanho" id="custorebanho" class="inputcusto"/></p>
+							<p>Custo do Pasto (R$/mês)<br/><input type="number" min="0" step="0.01" value="" name="custopasto" id="custopasto" class="inputcusto"/></p>
+							<p style="display:none">Lotação Média (cab/hal)<br/><input type="number" min="1" step="1" value="" name="custolotacao" id="custolotacao" class="inputcusto"/></p>
+						</div>
+						<div class="informedados">
+							<p>Valor de Entrada (R$)<br/><input type="number" min="0" step="0,01" value="" name="custovalorentrada" id="custovalorentrada" class="inputcusto"/></p>
+							<p style="display:none">Valor de Venda @ (R$)<br/><input type="number" min="0" step="0.01" value="" name="custovalordevenda" id="custovalordevenda" class="inputcusto"/></p>
+							<p style="display:none">Rendimento de Saída (%)<br/><input type="number" min="1" step="0.01" value="" name="custorendimento" id="custorendimento" class="inputcusto"/></p>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					
+					
+				</div>
+			</div>	
+			
+			<div id="box_gerar">
+				<button id="gera_btn" class="gera_btn">Montar Ciclos</button>
+			</div>
+			
+			<div id="box_donut">
+				<h1 class="titulo1">Ciclo Recria E Engorda</h1>
+				<!-- <a id="baixar" class="baixar" href="#" onclick="printDiv('chart3')"><img src="save.png" alt="" title=""/></a> -->
+				<div class="chart3" id="conteneur" style="margin:auto" ></div>
+				<div class="legenda">
+					<div class="fifth convencional" id="linha1">Convencional</div>
+					<div class="fifth aditivada" id="linha2">Aditivada</div>
+					<div class="fifth proteico" id="linha3">Proteico</div>
+					<div class="fifth energetico" id="linha4">Energético</div>
+					<div class="fifth costumizada" id="linha5">Monte a Sua</div>
+					<div class="clear"></div>
+				</div>
+				<p>Clique em uma das estratégias acima para visualizá-la<br/>ou selecione "MONTE A SUA" para costumizar uma estratégia e compará-la com as demais</p>
+			</div>
+			
+			<div id="box_estrategia">
+				<h1 class="titulo1">Estratégia <span class="qualestrategia"><span></h1>
+			</div>
+<script>
+function plotar(){			
+			
+	$idadedeentrada = +$('#idade').val();
+	$mesentrada = +$('#mes_inicial').val();
+	$pesoentrada = +$('#pesoentrada').val();
+	$pesosaida = +$('#pesosaida').val();	
+	$diferenca = ($pesosaida - $pesoentrada);			
+	$grafico = [];			
+		
+	for ($x = 1; $x <= 4; $x++) {	
+		
+		$mesentrada = +$('#mes_inicial').val();
+		
+		$grafico[$x] = [$pesoentrada];
+
+		$tipo = $x; //1 convencional , 2 aditivada, 3 proteico, 4 energetico
+
+		$evolucao = '';
+		if ($pesoentrada > 280 || $pesoentrada < 379.90 || $pesoentrada == 379.90) {$evolucao = 'garrote'; $evolucaoindex = 4;}
+		if ($pesoentrada > 379.90) {$evolucao = 'boi magro'; $evolucaoindex = 5;}
+		if ($pesoentrada < 280 || $pesoentrada == 280) {$evolucao = 'bezerro'; $evolucaoindex = 3;}
+
+		$mesdoano = $meses[$mesentrada-1]; // Maio
+		$diasnomes = $peso[$mesentrada][2]; //31
+		$periodo = $epoca[$mesentrada-1]; //secas
+		$ganhobase = $peso[$mesentrada][$evolucaoindex];
+		$estrategarecria = $estrategia[''+$evolucaoindex+$mesentrada+$tipo][$mesentrada-1]; //pro-secas
+		$ganhoadicional = $produtos[$estrategarecria][0];
+		$ganhofinal = ($ganhobase + $ganhoadicional);
+		$evolucaodeganho = ($pesoentrada + ($ganhofinal*$diasnomes));
+		$consumosuplemento = ($produtos[$estrategarecria][1]*$evolucaodeganho)*10;
+		$calcio = ($produtos[$estrategarecria][4]*$consumosuplemento/100);
+		$fosforo = ($produtos[$estrategarecria][5]*$consumosuplemento/100);
+		$proteinabruta = ($produtos[$estrategarecria][6]*$consumosuplemento/100);
+		$energiandt = ($produtos[$estrategarecria][7]*$consumosuplemento/100);
+		$pv = $evolucaodeganho;
+		$gmd = $ganhofinal;
+		$ims = $produtos[$estrategarecria][3];
+		$imspasto = ($porcents[$mesentrada][0]*$pv*$ims)/10000;
+		$imssuplemento = $consumosuplemento;
+		$imstotal = ($imssuplemento/1000)+$imspasto;
+		$pastocalcio = ($porcents[$mesentrada][1]*$imspasto)*10;
+		$pastofosforo = ($porcents[$mesentrada][2]*$imspasto)*10;
+		$pastoproteina = ($porcents[$mesentrada][3]*$imspasto)*10;
+		$pastoenergia = ($porcents[$mesentrada][4]*$imspasto)*10;
+		$atcalciop = ($pastocalcio/($pastocalcio+$calcio))*100;
+		$atcalciosup = 100-$atcalciop;
+		$atfosforop = ($pastofosforo/($pastofosforo+$fosforo))*100;
+		$atfosforosup = 100-$atfosforop;
+		$atproteinap = ($pastoproteina/($pastoproteina+$proteinabruta))*100;
+		$atproteinasup = 100-$atproteinap;
+		$atenergiap = ($pastoenergia/($pastoenergia+$energiandt))*100;
+		$atenergiasup = 100-$atenergiap;
+		$kgmes = (($diasnomes*$consumosuplemento)/1000);
+		$precodoproduto = $produtos[$estrategarecria][9];
+		$rsmes = ($precodoproduto/30*$consumosuplemento/1000)*$diasnomes;
+		$rstotal = $rsmes;
+		$qtdiastotal = Number($diasnomes);
+		$add = 1;
+
+		$grafico[$x].push($evolucaodeganho);	
+
+		tabela1 = '<div class="outtabela wrapper" id="line_'+$x+'">';
+		tabela1 += '<div class="container">';
+		tabela1 += '<div class="innertabela">';
+		tabela1 += '<span><h3>Minerthal '+$estrategarecria+'</h3></span>';
+		tabela1 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
+		tabela1 += '<span class="divisao mes">'+$mesdoano+'</span>';
+		tabela1 += '<span class="divisao">'+$periodo+'</span>';
+		//tabela1 += '<span class="divisao">'+$ganhobase+'</span>';
+		//tabela1 += '<span class="divisao">'+$ganhoadicional+'</span>';
+		//tabela1 += '<span class="divisao">'+$ganhofinal+'</span>';
+		tabela1 += '<span class="divisao">PV '+$pv.toFixed(2).replace(".", ",")+' kg</span>';
+		tabela1 += '<span class="divisao">GMD '+$gmd.toFixed(2).replace(".", ",")+' kg/dia</span>';
+		tabela1 += '<span class="divisao evol">'+$evolucao+'</span>';
+		tabela1 += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos">'+$evolucaodeganho.toFixed(2)+'</div>kg</span>';
+		tabela1 += '<span class="blue">Consumo Produto<br/>'+$consumosuplemento.toFixed(2).replace(".", ",")+'g/dia</span>';
+		tabela1 += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';
+		tabela1 += '<span class="divisao">'+$calcio.toFixed(2).replace(".", ",")+'g Ca</span>';
+		tabela1 += '<span class="divisao">'+$fosforo.toFixed(2).replace(".", ",")+'g P</span>';
+		tabela1 += '<span class="divisao">'+$proteinabruta.toFixed(2).replace(".", ",")+'g PB</span>';
+		tabela1 += '<span>'+$energiandt.toFixed(2).replace(".", ",")+'g NDT</span>';
+		tabela1 += '<span class="theader">Atendimento Cálcio</span>';
+		tabela1 += '<span><div class="pie pie'+(Math.floor(($atcalciosup/10))*10)+'"></div>';
+		tabela1 += '<p class="pasto"><b>'+$atcalciop.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+		tabela1 += '<p class="suplemento"><b>'+$atcalciosup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+		tabela1 += '</span>';
+		tabela1 += '<span class="theader">Atendimento Fósforo</span>';
+		tabela1 += '<span><div class="pie pie'+(Math.floor(($atfosforosup/10))*10)+'"></div>';
+		tabela1 += '<p class="pasto"><b>'+$atfosforop.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+		tabela1 += '<p class="suplemento"><b>'+$atfosforosup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+		tabela1 += '</span>';
+		tabela1 += '<span class="theader">Atendimento Proteína Bruta</span>';
+		tabela1 += '<span><div class="pie pie'+(Math.floor(($atproteinasup/10))*10)+'"></div>';
+		tabela1 += '<p class="pasto"><b>'+$atproteinap.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+		tabela1 += '<p class="suplemento"><b>'+$atproteinasup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+		tabela1 += '</span>';
+		tabela1 += '<span class="theader">Atendimento Energia NDT</span>';
+		tabela1 += '<span><div class="pie pie'+(Math.floor(($atenergiasup/10))*10)+'"></div>';
+		tabela1 += '<p class="pasto"><b>'+$atenergiap.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+		tabela1 += '<p class="suplemento"><b>'+$atenergiasup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+		tabela1 += '</span>';
+		if ($('#okcusto').is(":checked")) {	
+		tabela1 += '<span class="theader" style="border-top:10px solid #d3af8b">ESTRATÉGIA<br/>'+$estrategarecria+'<br/>Valor: R$ '+$precodoproduto.replace(".", ",")+'</span>';
+		tabela1 += '<span>Consumo: '+$kgmes.toFixed(2).replace(".", ",")+' kg/mês<br/>Custo: R$ '+Number($rsmes).toFixed(2).replace(".", ",")+'/mês</span>';
+		}
+		tabela1 += '</div>';
+
+		$('#box_estrategia').append(tabela1);
+	
+		while ($pesosaida > $evolucaodeganho ) {
+			$mesentrada = ($mesentrada + 1);
+			if ($mesentrada > 12) {$mesentrada = 1;}
+
+			if ($evolucaodeganho > 280 || $evolucaodeganho < 379.90 || $evolucaodeganho == 379.90) {$evolucao = 'garrote'; $evolucaoindex = 4;}
+			if ($evolucaodeganho > 379.90) {$evolucao = 'boi magro'; $evolucaoindex = 5;}
+			if ($evolucaodeganho < 280 || $evolucaodeganho == 280) {$evolucao = 'bezerro'; $evolucaoindex = 3;}
+
+			$mesdoano = $meses[$mesentrada-1]; // Maio
+			$diasnomes = $peso[$mesentrada][2]; //31
+			$periodo = $epoca[$mesentrada-1]; //secas
+			$ganhobase = $peso[$mesentrada][$evolucaoindex];
+			$estrategarecria = $estrategia[''+$evolucaoindex+$mesentrada+$tipo][$mesentrada-1]; //pro-secas
+			$ganhoadicional = $produtos[$estrategarecria][0];
+			$ganhofinal = ($ganhobase + $ganhoadicional);
+			$evolucaodeganho = ($evolucaodeganho + ($ganhofinal*$diasnomes));
+			$consumosuplemento = ($produtos[$estrategarecria][1]*$evolucaodeganho)*10;
+			$calcio = ($produtos[$estrategarecria][4]*$consumosuplemento/100);
+			$fosforo = ($produtos[$estrategarecria][5]*$consumosuplemento/100);
+			$proteinabruta = ($produtos[$estrategarecria][6]*$consumosuplemento/100);
+			$energiandt = ($produtos[$estrategarecria][7]*$consumosuplemento/100);
+			$pv = $evolucaodeganho;
+			$gmd = $ganhofinal;
+			$ims = $produtos[$estrategarecria][3];
+			$imspasto = ($porcents[$mesentrada][0]*$pv*$ims)/10000;
+			$imssuplemento = $consumosuplemento;
+			$imstotal = ($imssuplemento/1000)+$imspasto;
+			$pastocalcio = ($porcents[$mesentrada][1]*$imspasto)*10;
+			$pastofosforo = ($porcents[$mesentrada][2]*$imspasto)*10;
+			$pastoproteina = ($porcents[$mesentrada][3]*$imspasto)*10;
+			$pastoenergia = ($porcents[$mesentrada][4]*$imspasto)*10;
+			$atcalciop = ($pastocalcio/($pastocalcio+$calcio))*100;
+			$atcalciosup = 100-$atcalciop;
+			$atfosforop = ($pastofosforo/($pastofosforo+$fosforo))*100;
+			$atfosforosup = 100-$atfosforop;
+			$atproteinap = ($pastoproteina/($pastoproteina+$proteinabruta))*100;
+			$atproteinasup = 100-$atproteinap;
+			$atenergiap = ($pastoenergia/($pastoenergia+$energiandt))*100;
+			$atenergiasup = 100-$atenergiap;
+			$kgmes = (($diasnomes*$consumosuplemento)/1000);
+			$precodoproduto = $produtos[$estrategarecria][9];
+			$rsmes = ($precodoproduto/30*$consumosuplemento/1000)*$diasnomes;
+			$rstotal = $rstotal + $rsmes;	
+			$qtdiastotal = $qtdiastotal + Number($diasnomes);	
+			$add = $add + 1;
+
+			$grafico[$x].push($evolucaodeganho);	
+
+			tabela2 = '<div class="innertabela">';
+			tabela2 += '<span><h3>Minerthal '+$estrategarecria+'</h3></span>';
+			tabela2 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
+			tabela2 += '<span class="divisao mes">'+$mesdoano+'</span>';
+			tabela2 += '<span class="divisao">'+$periodo+'</span>';
+			//tabela2 += '<span class="divisao">'+$ganhobase.toFixed(2).replace(".", ",")+'</span>';
+			//tabela2 += '<span class="divisao">'+$ganhoadicional.toFixed(2).replace(".", ",")+'</span>';
+			//tabela2 += '<span class="divisao">'+$ganhofinal.toFixed(2).replace(".", ",")+'</span>';
+			tabela2 += '<span class="divisao">PV '+$pv.toFixed(2).replace(".", ",")+' kg</span>';
+			tabela2 += '<span class="divisao">GMD '+$gmd.toFixed(2).replace(".", ",")+' kg/dia</span>';
+			tabela2 += '<span class="divisao evol">'+$evolucao+'</span>';
+			tabela2 += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos">'+$evolucaodeganho.toFixed(2)+'</div>kg</span>';
+			tabela2 += '<span class="blue">Consumo Produto<br/>'+$consumosuplemento.toFixed(2).replace(".", ",")+'g/dia</span>';
+			tabela2 += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';
+			tabela2 += '<span class="divisao">'+$calcio.toFixed(2).replace(".", ",")+'g Ca</span>';
+			tabela2 += '<span class="divisao">'+$fosforo.toFixed(2).replace(".", ",")+'g P</span>';
+			tabela2 += '<span class="divisao">'+$proteinabruta.toFixed(2).replace(".", ",")+'g PB</span>';
+			tabela2 += '<span>'+$energiandt.toFixed(2).replace(".", ",")+'g NDT</span>';
+			tabela2 += '<span class="theader">Atendimento Cálcio</span>';
+			tabela2 += '<span><div class="pie pie'+(Math.floor(($atcalciosup/10))*10)+'"></div>';
+			tabela2 += '<p class="pasto"><b>'+$atcalciop.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+			tabela2 += '<p class="suplemento"><b>'+$atcalciosup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+			tabela2 += '</span>';
+			tabela2 += '<span class="theader">Atendimento Fósforo</span>';
+			tabela2 += '<span><div class="pie pie'+(Math.floor(($atfosforosup/10))*10)+'"></div>';
+			tabela2 += '<p class="pasto"><b>'+$atfosforop.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+			tabela2 += '<p class="suplemento"><b>'+$atfosforosup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+			tabela2 += '</span>';
+			tabela2 += '<span class="theader">Atendimento Proteína Bruta</span>';
+			tabela2 += '<span><div class="pie pie'+(Math.floor(($atproteinasup/10))*10)+'"></div>';
+			tabela2 += '<p class="pasto"><b>'+$atproteinap.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+			tabela2 += '<p class="suplemento"><b>'+$atproteinasup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+			tabela2 += '</span>';
+			tabela2 += '<span class="theader">Atendimento Energia NDT</span>';
+			tabela2 += '<span><div class="pie pie'+(Math.floor(($atenergiasup/10))*10)+'"></div>';
+			tabela2 += '<p class="pasto"><b>'+$atenergiap.toFixed(2).replace(".", ",")+'% pasto</b></p>';
+			tabela2 += '<p class="suplemento"><b>'+$atenergiasup.toFixed(2).replace(".", ",")+'% suplemento</b></p>';
+			tabela2 += '</span>';
+			if ($('#okcusto').is(":checked")) {	
+			tabela2 += '<span class="theader" style="border-top:10px solid #d3af8b">ESTRATÉGIA<br/>'+$estrategarecria+'<br/>Valor: R$ '+$precodoproduto.replace(".", ",")+'</span>';
+			tabela2 += '<span>Consumo: '+$kgmes.toFixed(2).replace(".", ",")+' kg/mês<br/>Custo: R$ '+Number($rsmes).toFixed(2).replace(".", ",")+'/mês</span>';
+			}
+			tabela2 += '</div>';
+		
+			$('#line_'+$x+' .container').append(tabela2);				
+		}	
+		$arroba = ($rstotal/($diferenca/30));
+		$custodopasto = ((Number($('#custopasto').val()) * $qtdiastotal) / 30.5);
+		$custofinanceirosimples = $('#custovalorentrada').val() * $add * 0.01;
+		$custodosuplemento = $arroba;
+		$custoengordada = (($rstotal + $custodopasto + $custofinanceirosimples ) / ($diferenca/30));
+		
+		
+		$('#line_'+$x).append('<div class="clear"></div></div>');
+		if ($('#okcusto').is(":checked")) {	
+			//$('#line_'+$x).append('<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+Number($rstotal).toFixed(2).replace(".", ",")+'<br/><strong>Custo do Suplemento (R$/@engordada)</strong>: R$'+Number($arroba).toFixed(2).replace(".", ",")+'</p>');
+			$('#line_'+$x).append('<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+Number($rstotal).toFixed(2).replace(".", ",")+'<br/><strong>Custo Médio do Suplemento por mês</strong>: R$' + ($rstotal/$add).toFixed(2).replace(".", ",")+'<br/><strong>Custo da @ Engordada Total (Pasto + Suplemento+Financeiro)</strong>: R$' + $custoengordada.toFixed(2).replace(".", ",")+'</p>');
+		}	
+		$('#line_'+$x).append('</div>');
+		//console.log($grafico[$x]);
+		//console.log($custodopasto);	
+		//console.log($custofinanceirosimples);
+		//console.log($custodosuplemento);
+		//console.log($custoengordada);
+	}	
+	var $line1 = $grafico[1]; 
+	var $line2 = $grafico[2];
+	var $line3 = $grafico[3]; 
+	var $line4 = $grafico[4];
+	
+				
+    var $plot2 = $.jqplot('conteneur', [$line1, $line2, $line3,$line4], {
+		seriesDefaults: {
+		        	showMarker: false
+		    },
+        seriesColors: ["blue", "goldenrod", "red", "green"],
+			
+		legend: {
+		            show: false
+		            //,placement: 'outsideGrid',
+					//labels: ['<a id="linha1" href="#">Convencional</a>' , '<a href="#" id="linha2">Aditivada</a>', '<a id="linha3" href="#" >Proteico</a>','<a id="linha4" href="#">Energético</a>'],
+		            //location: 'ne',
+		            //rowSpacing: '0px'
+		        },
+				gridPadding: { right: 0 },
+		axes:{
+		        xaxis:{
+		          label:'Meses',
+		          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+				  min:1	
+		        },
+		        yaxis:{
+		          label:'Kg',
+		          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+				  min:0
+		        }
+		      },
+			  canvasOverlay: {
+			     show: true,
+			     objects: [
+			         {horizontalLine: {
+			             name: 'stack-overflow',
+			             y: $pesosaida, // x-axis position where you want to draw the vertical line.
+			             lineWidth: 3,
+			             color: 'rgb(100, 55, 124)',
+			             shadow: false
+			         }}
+			      ]
+			  }
+		
+    	  });
+		  
+		$(window).resize(function() {
+		   $plot2.replot( { resetAxes: true } );
+		});
+		  
+		  
+		  $('#line_1, #line_2, #line_3, #line_4').width($('#main').width());
+		  $('#line_1 .container').width(($('#line_1 .innertabela').length)*200);
+		  $('#line_2 .container').width(($('#line_2 .innertabela').length)*200);
+		  $('#line_3 .container').width(($('#line_3 .innertabela').length)*200);
+		  $('#line_4 .container').width(($('#line_4 .innertabela').length)*200);
+	  }//fim plotar	
+	
+	function montartabela() {
+		
+		$mesentrada = +$('#mes_inicial').val();
+	
+		$mesdoano = $meses[$mesentrada-1]; // Maio
+		$diasnomes = $peso[$mesentrada][2]; //31
+		$periodo = $epoca[$mesentrada-1]; //secas
+		$ganhobase = $peso[$mesentrada][$evolucaoindex];
+		
+		tabelahtml = '<div class="outtabela wrapper" id="line_5">';
+		tabelahtml += '<div class="container">';
+		tabelahtml += '<div class="innertabela">';	
+		tabelahtml += '<span><select class="escolhaproduto" name="escolhaproduto"><option value="">PRODUTO</option><option value="Linea 40">Minerthal Linea 40</option><option value="Linea 60">Minerthal Linea 60</option><option value="Engorda MD">Minerthal Engorda MD</option><option value="Terminação MD">Minerthal Terminação MD</option><option value="Proteico Águas">Minertec Proteico Águas</option><option value="Pró-Engorda">Minerthal Pró-Engorda</option><option value="MD Seca">Minerthal MD Seca</option><option value="Minerseca">Minerseca</option><option value="Pró-Águas">Minerthal Pró-Águas</option><option value="Ureia 20">Minerthal Ureia 20</option><option value="Pró-Secas">Minerthal Pró-Secas</option></select></span>';
+		tabelahtml += '<span class="nopadding"><img src="" alt="" title=""/></span>';		
+		tabelahtml += '<span class="divisao mes mesdoano" rel="'+$mesentrada+'">'+$mesdoano+'</span>'; //mês do ano: 
+		tabelahtml += '<span class="divisao">'+$periodo+'</span>';	
+		tabelahtml += '<div class="innerinnertabela oculta">';
+		//tabelahtml += '<span class="divisao"><div class="a0"></div></span>'; //Ganho Base: 
+		//tabelahtml += '<span class="divisao"><div class="a1"></div></span>'; //Ganho Adicional: 
+		//tabelahtml += '<span class="divisao"><div class="a2"></div></span>'; //ganhofinal
+		tabelahtml += '<span class="divisao">PV <div class="a10"></div> kg</span>'; //PV: 
+		tabelahtml += '<span class="divisao">GMD <div class="a11"></div> kg/dia</span>'; //GMD: 
+		tabelahtml += '<span class="divisao evol"><div class="a3"></div></span>'; //Evolução Categoria Animal: 
+		tabelahtml += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos a4" rel=""></div>kg</span>'; //Evolução do Ganho: 
+		tabelahtml += '<span class="blue">Consumo Produto<br/><div class="a5"></div>g/dia</span>'; //Consumo Suplemento (g/dia): 
+		tabelahtml += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';		
+		tabelahtml += '<span class="divisao"><div class="a6"></div>g Ca</span>'; //Cálcio (g): 
+		tabelahtml += '<span class="divisao"><div class="a7"></div>g P</span>'; //Fósforo (g): 
+		tabelahtml += '<span class="divisao"><div class="a8"></div>g PB</span>'; //Proteína Bruta (g): 
+		tabelahtml += '<span><div class="a9"></div>g NDT</span>'; //Energia (NDT - g): 
+		tabelahtml += '<span class="theader">Atendimento Cálcio</span>';	
+		tabelahtml += '<span><div class="pie atcalcio"></div>';	
+		tabelahtml += '<p class="pasto"><b><i class="a12"></i>% pasto</b></p>';
+		tabelahtml += '<p class="suplemento"><b><i class="a13"></i>% suplemento</b></p>';
+		tabelahtml += '</span>';
+		tabelahtml += '<span class="theader">Atendimento Fósforo</span>';		
+		tabelahtml += '<span><div class="pie atfosforo"></div>';
+		tabelahtml += '<p class="pasto"><b><i class="a14"></i>% pasto</b></p>';
+		tabelahtml += '<p class="suplemento"><b><i class="a15"></i>% suplemento</b></p>';
+		tabelahtml += '</span>';
+		tabelahtml += '<span class="theader">Atendimento Proteína Bruta</span>';	
+		tabelahtml += '<span><div class="pie atproteina"></div>';
+		tabelahtml += '<p class="pasto"><b><i class="a16"></i>% pasto</b></p>';
+		tabelahtml += '<p class="suplemento"><b><i class="a17"></i>% suplemento</b></p>';
+		tabelahtml += '</span>';
+		tabelahtml += '<span class="theader">Atendimento Energia NDT</span>';	
+		tabelahtml += '<span><div class="pie atenergia"></div>';
+		tabelahtml += '<p class="pasto"><b><i class="a18"></i>% pasto</b></p>';
+		tabelahtml += '<p class="suplemento"><b><i class="a19"></i>% suplemento</b></p>';
+		tabelahtml += '</span>';
+		if ($('#okcusto').is(":checked")) {	
+		tabelahtml += '<span class="theader" style="border-top:10px solid #d3af8b">ESTRATÉGIA<br/><i class="a20"></i><br/>Valor: R$ <i class="a21"></i></span>';
+		tabelahtml += '<span>Consumo: <i class="a22"></i> kg/mês<br/>Custo: R$ <i class="a23"></i>/mês</span>';
+		}
+		tabelahtml += '<span><button class="proxmes unico">Próx Mês</button></span>';
+		tabelahtml += '</div>';
+		tabelahtml += '</div>';
+		tabelahtml += '<div class="clear" id="clearthis"></div>';
+		tabelahtml += '</div></div>';	
+		
+		$('#box_estrategia').append(tabelahtml);	
+		$('#line_5').width($('#main').width());
+
+		$mesentradaarray = [];
+		$evolucaodeganhoarray = [];
+		$rstotalarray = [];
+		$add = 0;
+
+		$(document).on('click', '.proxmes', function() {
+			$add = $add + 1;
+			$(this).hide();
+			$('.apagar').last().hide();
+			$('.innertabela select').last().prop('disabled', true);
+			$mesdoano = $('.innertabela .mesdoano').last().html();
+			$mesentradaarray.push($meses.indexOf($mesdoano));
+			$evolucaodeganho = $('.innertabela .ganhos').last().html();
+			$evolucaodeganho = Number($evolucaodeganho);
+			$evolucaodeganhoarray.push($evolucaodeganho);
+			if ($('#okcusto').is(":checked")) {	
+				$rstotal = $('#line_5 .a23').last().html();
+				$rstotal = $rstotal.replace(",", ".");
+				$rstotal = Number($rstotal);
+				$rstotalarray.push($rstotal);
+			}
+			//alert($mesentradaarray);
+			//alert($evolucaodeganhoarray);
+			//alert($rstotalarray);
+			if ($pesosaida > $evolucaodeganho) {
+				colunanova();
+				$('#line_5 .container').width(($('#line_5 .container').width())+200);
+				$('html,body').animate({scrollTop: $("#box_estrategia h1").offset().top},'slow');				
+			} 
+			if ($pesosaida < $evolucaodeganho) {
+				//alert('fim');
+				atualizagrafico();
+				$('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow');
+				if ($('#okcusto').is(":checked")) {	
+					$sum = $rstotalarray.reduce((a, b) => a + b, 0);
+					$youcustodopasto = Number($('#custopasto').val()) * $add;
+					$youcustofinanceirosimples = $('#custovalorentrada').val() * $add * 0.01;
+					$youcustoengordada = (($sum + $youcustodopasto + $youcustofinanceirosimples ) / ($diferenca/30));
+					$("#line_5 .container").append('<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+$sum.toFixed(2).replace(".", ",")+'<br/><strong>Custo Médio do Suplemento por mês</strong>: R$' + ($sum/$add).toFixed(2).replace(".", ",")+'<br/><strong>Custo do Suplemento (R$/@engordada)</strong>: R$ '+($youcustoengordada).toFixed(2).replace(".", ",")+'</p>');
+				}
+			}
+	
+		});
+		
+		
+		$(document).on('click', '.apagar', function() {
+			$add = $add - 1;
+			$('.innertabela').last().remove();
+			$('.innertabela select').last().prop('disabled', false);
+			$('.innertabela .proxmes').last().show();
+			$('.innertabela .apagar').last().show();
+			$mesentradaarray.splice(-1, 1);
+			$evolucaodeganhoarray.splice(-1, 1);
+			if ($('#okcusto').is(":checked")) {	
+				$rstotalarray.splice(-1, 1);
+			}
+			//alert($mesentradaarray);
+			//alert($evolucaodeganhoarray);
+	
+		});
+
+		function colunanova() {
+		
+			$mesentrada =  $mesentradaarray[$mesentradaarray.length-1];
+			$mesentrada = (+$mesentrada + 2);
+			if ($mesentrada > 12) {$mesentrada = 1;}
+	
+			$pesoentrada = $evolucaodeganhoarray[$evolucaodeganhoarray.length-1];
+	
+			$mesdoano = $meses[$mesentrada-1]; // Maio
+			$diasnomes = $peso[$mesentrada][2]; //31
+			$periodo = $epoca[$mesentrada-1]; //secas
+	
+			tabelahtml = '<div class="innertabela">';
+			tabelahtml += '<span><select class="escolhaproduto" name="escolhaproduto"><option value="">PRODUTO</option><option value="Linea 40">Minerthal Linea 40</option><option value="Linea 60">Minerthal Linea 60</option><option value="Engorda MD">Minerthal Engorda MD</option><option value="Terminação MD">Minerthal Terminação MD</option><option value="Proteico Águas">Minertec Proteico Águas</option><option value="Pró-Engorda">Minerthal Pró-Engorda</option><option value="MD Seca">Minerthal MD Seca</option><option value="Minerseca">Minerseca</option><option value="Pró-Águas">Minerthal Pró-Águas</option><option value="Ureia 20">Minerthal Ureia 20</option><option value="Pró-Secas">Minerthal Pró-Secas</option></select></span>';
+			tabelahtml += '<span class="nopadding"><img src="" alt="" title=""/></span>';
+			tabelahtml += '<span class="divisao mes mesdoano" rel="'+$mesentrada+'">'+$mesdoano+'</span>';
+			tabelahtml += '<span class="divisao">'+$periodo+'</span>';	
+			tabelahtml += '<div class="innerinnertabela oculta">';
+			//tabelahtml += '<span class="divisao"><div class="a0"></div></span>';
+			//tabelahtml += '<span class="divisao"><div class="a1"></div></span>';
+			//tabelahtml += '<span class="divisao"><div class="a2"></div></span>';
+			tabelahtml += '<span class="divisao">PV <div class="a10"></div> kg</span>'; //PV: 
+			tabelahtml += '<span class="divisao">GMD <div class="a11"></div> kg/dia</span>'; //GMD: 
+			tabelahtml += '<span class="divisao evol"><div class="a3"></div></span>';
+			tabelahtml += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos a4" rel=""></div>kg</span>';
+			tabelahtml += '<span class="blue">Consumo Produto<br/><div class="a5"></div>g/dia</span>';
+			tabelahtml += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';		
+			tabelahtml += '<span class="divisao"><div class="a6"></div>g Ca</span>'; //Cálcio (g): 
+			tabelahtml += '<span class="divisao"><div class="a7"></div>g P</span>'; //Fósforo (g): 
+			tabelahtml += '<span class="divisao"><div class="a8"></div>g PB</span>'; //Proteína Bruta (g): 
+			tabelahtml += '<span><div class="a9"></div>g NDT</span>'; //Energia (NDT - g): 
+			tabelahtml += '<span class="theader">Atendimento Cálcio</span>';	
+			tabelahtml += '<span><div class="pie atcalcio"></div>';	
+			tabelahtml += '<p class="pasto"><b><i class="a12"></i>% pasto</b></p>';
+			tabelahtml += '<p class="suplemento"><b><i class="a13"></i>% suplemento</b></p>';
+			tabelahtml += '</span>';
+			tabelahtml += '<span class="theader">Atendimento Fósforo</span>';		
+			tabelahtml += '<span><div class="pie atfosforo"></div>';
+			tabelahtml += '<p class="pasto"><b><i class="a14"></i>% pasto</b></p>';
+			tabelahtml += '<p class="suplemento"><b><i class="a15"></i>% suplemento</b></p>';
+			tabelahtml += '</span>';
+			tabelahtml += '<span class="theader">Atendimento Proteína Bruta</span>';	
+			tabelahtml += '<span><div class="pie atproteina"></div>';
+			tabelahtml += '<p class="pasto"><b><i class="a16"></i>% pasto</b></p>';
+			tabelahtml += '<p class="suplemento"><b><i class="a17"></i>% suplemento</b></p>';
+			tabelahtml += '</span>';
+			tabelahtml += '<span class="theader">Atendimento Energia NDT</span>';	
+			tabelahtml += '<span><div class="pie atenergia"></div>';
+			tabelahtml += '<p class="pasto"><b><i class="a18"></i>% pasto</b></p>';
+			tabelahtml += '<p class="suplemento"><b><i class="a19"></i>% suplemento</b></p>';
+			tabelahtml += '</span>';
+			if ($('#okcusto').is(":checked")) {	
+			tabelahtml += '<span class="theader" style="border-top:10px solid #d3af8b">ESTRATÉGIA<br/><i class="a20"></i><br/>Valor: R$ <i class="a21"></i></span>';
+			tabelahtml += '<span>Consumo: <i class="a22"></i> kg/mês<br/>Custo: R$ <i class="a23"></i>/mês</span>';
+			}
+			tabelahtml += '<span><button class="apagar">Apagar</button><button class="proxmes">Próx Mês</button></span>';
+			tabelahtml += '</div>';
+			tabelahtml += '</div>';
+ 	
+			$("#line_5 div:last").before(tabelahtml);
+			};		
+	}
+		
+$(document).on('change', '.escolhaproduto', function() {
+	
+	$('.innerinnertabela').last().removeClass('oculta');
+	
+	$evolucao = 'boi magro';
+	$evolucaoindex = 5;
+	if ($pesoentrada < 380) {$evolucao = 'garrote'; $evolucaoindex = 4;}
+	if ($pesoentrada < 280.01) {$evolucao = 'bezerro'; $evolucaoindex = 3;}
+	
+	$mesdoano = $meses[$mesentrada-1]; // Maio
+	$diasnomes = $peso[$mesentrada][2]; //31
+	$periodo = $epoca[$mesentrada-1]; //secas
+	$ganhobase = $peso[$mesentrada][$evolucaoindex]; 		
+  
+	$estrategarecria = this.value;
+	$ganhoadicional = $produtos[$estrategarecria][0];
+	$ganhofinal = ($ganhobase + $ganhoadicional);
+	$evolucaodeganho = ($pesoentrada + ($ganhofinal*$diasnomes));
+	$consumosuplemento = ($produtos[$estrategarecria][1]*$evolucaodeganho)*10;
+	$calcio = ($produtos[$estrategarecria][4]*$consumosuplemento/100);
+	$fosforo = ($produtos[$estrategarecria][5]*$consumosuplemento/100);
+	$proteinabruta = ($produtos[$estrategarecria][6]*$consumosuplemento/100);
+	$energiandt = ($produtos[$estrategarecria][7]*$consumosuplemento/100);
+	$pv = $evolucaodeganho;
+	$gmd = $ganhofinal;
+	$ims = $produtos[$estrategarecria][3];
+	$imspasto = ($porcents[$mesentrada][0]*$pv*$ims)/10000;
+	$imssuplemento = $consumosuplemento;
+	$imstotal = ($imssuplemento/1000)+$imspasto;
+	$pastocalcio = ($porcents[$mesentrada][1]*$imspasto)*10;
+	$pastofosforo = ($porcents[$mesentrada][2]*$imspasto)*10;
+	$pastoproteina = ($porcents[$mesentrada][3]*$imspasto)*10;
+	$pastoenergia = ($porcents[$mesentrada][4]*$imspasto)*10;
+	$atcalciop = ($pastocalcio/($pastocalcio+$calcio))*100;
+	$atcalciosup = 100-$atcalciop;
+	$atfosforop = ($pastofosforo/($pastofosforo+$fosforo))*100;
+	$atfosforosup = 100-$atfosforop;
+	$atproteinap = ($pastoproteina/($pastoproteina+$proteinabruta))*100;
+	$atproteinasup = 100-$atproteinap;
+	$atenergiap = ($pastoenergia/($pastoenergia+$energiandt))*100;
+	$atenergiasup = 100-$atenergiap;
+	if ($('#okcusto').is(":checked")) {	
+		$kgmes = (($diasnomes*$consumosuplemento)/1000);
+		$precodoproduto = $produtos[$estrategarecria][9];
+		$rsmes = ($precodoproduto/30*$consumosuplemento/1000)*$diasnomes;
+	}	
+
+	//$('.a0').last().html($ganhobase.toFixed(2).replace(".", ","));
+	//$('.a1').last().html($ganhoadicional.toFixed(2).replace(".", ","));
+	//$('.a2').last().html($ganhofinal.toFixed(2).replace(".", ","));
+	$('.a3').last().html($evolucao);
+	$('.a4').last().html($evolucaodeganho.toFixed(2));
+	$('.a5').last().html($consumosuplemento.toFixed(2).replace(".", ","));
+	$('.a6').last().html($calcio.toFixed(2).replace(".", ","));
+	$('.a7').last().html($fosforo.toFixed(2).replace(".", ","));
+	$('.a8').last().html($proteinabruta.toFixed(2).replace(".", ","));
+	$('.a9').last().html($energiandt.toFixed(2).replace(".", ","));
+	$('.a10').last().html($pv.toFixed(2).replace(".", ","));
+	$('.a11').last().html($gmd.toFixed(2).replace(".", ","));
+	$('.a12').last().html($atcalciop.toFixed(2).replace(".", ","));
+	$('.a13').last().html($atcalciosup.toFixed(2).replace(".", ","));
+	$('.a14').last().html($atfosforop.toFixed(2).replace(".", ","));
+	$('.a15').last().html($atfosforosup.toFixed(2).replace(".", ","));
+	$('.a16').last().html($atproteinap.toFixed(2).replace(".", ","));
+	$('.a17').last().html($atproteinasup.toFixed(2).replace(".", ","));
+	$('.a18').last().html($atenergiap.toFixed(2).replace(".", ","));
+	$('.a19').last().html($atenergiasup.toFixed(2).replace(".", ",")); 
+	if ($('#okcusto').is(":checked")) {	
+		$('.a20').last().html($estrategarecria);
+		$('.a21').last().html($precodoproduto.replace(".", ","));
+		$('.a22').last().html($kgmes.toFixed(2).replace(".", ","));
+		$('.a23').last().html(Number($rsmes).toFixed(2).replace(".", ","));
+	}	
+	
+	$('.atcalcio').last().addClass("pie"+(Math.floor(($atcalciosup/10))*10));
+	$('.atproteina').last().addClass("pie"+(Math.floor(($atproteinasup/10))*10));
+	$('.atfosforo').last().addClass("pie"+(Math.floor(($atfosforosup/10))*10));
+	$('.atenergia').last().addClass("pie"+(Math.floor(($atenergiasup/10))*10));
+	$('.nopadding img').last().attr("src",(($estrategarecria.replace(' ', '-')).toLowerCase())+".jpeg");
+
+});
+
+function atualizagrafico() {
+	
+	for ($x = 1; $x <= 5; $x++) {	
+		var texts= $("#line_"+$x+" .ganhos").map(function() {
+		   return $(this).html();
+		}).get();
+		//console.log(texts);		
+		window['line'+$x] = JSON.parse('[' + texts + ']');
+	}
+	
+	//$plot2.destroy();
+	$('#conteneur').empty();
+	
+	//var line5 = JSON.parse('[' + texts + ']');
+	//console.log (line5);
+	
+    var $plot3 = $.jqplot('conteneur', [line1, line2, line3, line4, line5], {
+		seriesDefaults: {
+		        	showMarker: false
+		    },
+        seriesColors: ["blue", "goldenrod", "red", "green","purple"],
+			
+		legend: {
+		            show: false
+		            //,placement: 'outsideGrid',
+					//labels: ['Meta','<a id="linha1" href="#">Convencional</a>' , '<a href="#" id="linha2">Aditivada</a>', '<a id="linha3" href="#" >Proteico</a>','<a id="linha4" href="#">Energético</a>'],
+		            //location: 'ne',
+		           // rowSpacing: '0px'
+		        },
+				gridPadding: { right: 0 },
+				
+		axes:{
+		        xaxis:{
+		          label:'Meses',
+		          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+				  min:0
+		        },
+		        yaxis:{
+		          label:'Kg',
+		          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+				  min:0
+		        }
+		      },
+			  canvasOverlay: {
+			     show: true,
+			     objects: [
+			         {horizontalLine: {
+			             name: 'stack-overflow',
+			             y: (+$('#pesosaida').val()), // x-axis position where you want to draw the vertical line.
+			             lineWidth: 3,
+			             color: 'rgb(100, 55, 124)',
+			             shadow: false
+			         }}
+			      ]
+			  }
+    });	
+	
+	$(window).resize(function() {
+	          $plot3.replot( { resetAxes: true } );
+	    });	
+}
+
+
+$(document).on('click', '#linha1', function(){
+   $('#box_estrategia').show();
+   $("#line_1").show();
+   $("#line_2,#line_3,#line_4,#line_5").hide();
+   $(".qualestrategia").text('Convencional');
+   $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow');				
+});
+$(document).on('click', '#linha2', function(){
+   $('#box_estrategia').show();
+   $("#line_2").show();
+   $("#line_1,#line_3,#line_4,#line_5").hide();
+   $(".qualestrategia").text('Aditivada');
+   $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow');				
+});
+$(document).on('click', '#linha3', function(){
+   $('#box_estrategia').show();
+   $("#line_3").show();
+   $("#line_2,#line_1,#line_4,#line_5").hide();
+   $(".qualestrategia").text('Proteico');
+   $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow');				
+});	
+$(document).on('click', '#linha4', function(){
+   $('#box_estrategia').show();
+   $("#line_4").show();
+   $("#line_1,#line_2,#line_3,#line_5").hide();
+   $(".qualestrategia").text('Energético');
+   $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow');				
+});	
+$(document).on('click', '#linha5', function(){
+	montartabela();	
+   $('#box_estrategia').show();
+   $("#line_5").show();
+   $("#line_1,#line_2,#line_3,#line_4").hide();
+   $(".qualestrategia").text('Monte a Sua');
+   $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow');				
+});
+
+function rolatela(aonde){
+	//console.log($(this).val());
+	setTimeout(function (){
+	 $('html,body').animate({scrollTop: $(aonde).offset().top},'slow'); // Something you want delayed.
+	}, 500);	
+};
+
+$('#gera_btn').click(function(){   
+//console.log('gerar');
+if ($('#idade').val() < 1){ alert('Informe a idade do animal em meses');$('html,body').animate({scrollTop: $("#box_fase").offset().top},'slow'); return false}
+if ($('#mes_inicial').val() == '0'){ alert('Selecione um mês de entrada');$('html,body').animate({scrollTop: $("#box_mes").offset().top},'slow'); return false}
+if ($('#pesoentrada').val() == ''){ alert('Informe o peso inicial do animal em quilos');$('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); return false}
+if ($('#pesosaida').val() == ''){ alert('Informe o peso de saída do animal em quilos');$('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); return false}
+if (+($('#pesoentrada').val()) > +($('#pesosaida').val())){alert('O Peso de saída deve ser maior que o peso inicial do animal!');$('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); return false}
+if ($('#okcusto').is(":checked")) {	/*
+	if ($('#linea40').val() == '') {alert('Informe o preço do produto');$('#linea40').focus();return false}
+	if ($('#linea60').val() == '') {alert('Informe o preço do produto');$('#linea60').focus();return false}
+	if ($('#engordamd').val() == '') {alert('Informe o preço do produto');$('#engordamd').focus();return false}
+	if ($('#terminacaomd').val() == '') {alert('Informe o preço do produto');$('#terminacaomd').focus();return false}
+	if ($('#proteicoaguas').val() == '') {alert('Informe o preço do produto');$('#proteicoaguas').focus();return false}
+	if ($('#proengorda').val() == '') {alert('Informe o preço do produto');$('#proengorda').focus();return false}
+	if ($('#mdseca').val() == '') {alert('Informe o preço do produto');$('#mdseca').focus();return false}
+	if ($('#minerseca').val() == '') {alert('Informe o preço do produto');$('#minerseca').focus();return false}
+	if ($('#proaguas').val() == '') {alert('Informe o preço do produto');$('#proaguas').focus();return false}
+	if ($('#ureia20').val() == '') {alert('Informe o preço do produto');$('#ureia20').focus();return false}
+	if ($('#prosecas').val() == '') {alert('Informe o preço do produto');$('#prosecas').focus();return false} */
+	if ($('#linea40').val() == '') {$('#linea40').val(0);}
+	if ($('#linea60').val() == '') {$('#linea60').val(0);}
+	if ($('#engordamd').val() == '') {$('#engordamd').val(0);}
+	if ($('#terminacaomd').val() == '') {$('#terminacaomd').val(0);}
+	if ($('#proteicoaguas').val() == '') {$('#proteicoaguas').val(0);}
+	if ($('#proengorda').val() == '') {$('#proengorda').val(0);}
+	if ($('#mdseca').val() == '') {$('#mdseca').focus().val(0);}
+	if ($('#minerseca').val() == '') {$('#minerseca').val(0);}
+	if ($('#proaguas').val() == '') {$('#proaguas').val(0);}
+	if ($('#ureia20').val() == '') {$('#ureia20').val(0);}
+	if ($('#prosecas').val() == '') {$('#prosecas').val(0);} 		
+	$produtos['Linea 40'].push($('#linea40').val());
+	$produtos['Linea 60'].push($('#linea60').val());
+	$produtos['Engorda MD'].push($('#engordamd').val());
+	$produtos['Terminação MD'].push($('#terminacaomd').val());
+	$produtos['Proteico Águas'].push($('#proteicoaguas').val());
+	$produtos['Pró-Engorda'].push($('#proengorda').val());
+	$produtos['MD Seca'].push($('#mdseca').val());
+	$produtos['Minerseca'].push($('#minerseca').val());
+	$produtos['Pró-Águas'].push($('#proaguas').val());
+	$produtos['Ureia 20'].push($('#ureia20').val());
+	$produtos['Pró-Secas'].push($('#prosecas').val());
+}
+$('#box_mes,#box_fase,#box_escore,#box_gerar,#box_custo').hide();
+$('#menu').toggleClass('menubranco');
+$('#return').css('visibility','visible');
+$('#box_donut').show();
+$('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow');
+plotar();
+});  
+
+$('#return').click(function(){
+$('#menu').toggleClass('menubranco');
+$('#return').css('visibility','hidden');
+$('.outtabela').empty();
+$('#chart3').empty();
+location.reload();
+$(document).scrollTop(0);
+})
+
+</script>
+
+		<div id="box_foot">
+			<div class="third">
+				<a class="titulo1" id="gohome">Home</a>
+			</div>
+			<div class="third">
+				<a class="titulo1" id="gocompare">Nova Comparação</a>
+			</div>
+			<div class="third">
+				<a class="titulo1" id="gorestart">Reinicar Ciclo</a>
+			</div>
+			<div class="clear"></div>
+		</div> <!-- //main -->
+		<div id="box_copyright">
+			Copyright © 2017 Minerthal • www.minerthal.com.br
+		</div>
+		<a href="index.html"><img src="address-icon.png" style="position:fixed;bottom:0;right:0;width:50px"></a>
+		
+	</body>
+</html>

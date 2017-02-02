@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="pt">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
+		<title>Ciclo Minerthal</title>
+	    <script type="text/javascript" src="cordova.js"></script>
+		<script type="text/javascript" src="src/jquery.min.js"></script>
+		<script type="text/javascript" src="src/jquery.jqplot.js"></script>
+		<script type="text/javascript" src="src/plugins/jqplot.donutRenderer.js"></script>
+		<script type="text/javascript" src="src/html2canvas.min.js"></script>
+		<script type="text/javascript" src="tabelas.js"></script>		
+		<script type="text/javascript" src="api.js"></script>
+		<script type="text/javascript" src="src/SocialSharing.js"></script>		
+		<link rel="stylesheet" type="text/css" href="src/jquery.jqplot.css" />
+		<style type="text/css" media="screen">
+			@font-face {
+			font-family: "Bebas Neua";
+			src: url("BebasNeue Regular.eot?") format("eot"),
+			url("BebasNeue Regular.ttf") format("truetype");
+			}
+			body {letter-spacing: .025em;font-size: 1em;line-height: 1.5;margin: 0;font-family:sans-serif;color: #5f5f5f;}
+			html, body, button, input, select, textarea {-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+			#menu {position: fixed;top: 0;width: 100%;z-index: 25;background-color: #4f2b0f;text-align:center;color:#fff;height:60px;line-height:60px;font-size:1.5em;letter-spacing:0.5px;font-weight:bold;}
+			.menubranco {background-color:#fff !important;color:#4f2b0f !important;}
+			.titulo1 {font-family: 'Bebas Neua', sans-serif;}	
+			#box_mes {background-color: #b4b282;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}	
+			#box_fase {background-color: #e9cb96;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}
+			#box_escore {background-color: #d3af8b;padding-top: 4rem;padding-bottom: 4rem;text-align:center;}
+			#box_gerar {background-color: #697FB8;padding-top: 4rem;padding-bottom: 4rem;text-align:center;display:none;}
+			#box_donut {background-color: #b4b282;padding-top: 4rem;padding-bottom: 4rem;text-align:center;display:none;}
+			#box_estrategia {text-align:center;display:none;}
+			#box_foot {background-color: #4f2b0f;text-align:center;color:#fff;height:60px;line-height:60px;font-size:28px;letter-spacing:0.5px;font-weight:bold;display:none;}
+			#box_copyright {background-color: #fff;text-align:center;color:#697FB8;height:30px;line-height:30px;font-size:11px;letter-spacing:0.5px;font-weight:bold;}
+			h1, .ecc {font-size:88px;letter-spacing:4px;margin-bottom:0;text-transform:uppercase;color:#fff;line-height:88px;display:block;}  
+			p {color:#fff;font-size:22px;letter-spacing:0.5px;line-height:33px;margin-top:0;margin-bottom:33px;}
+			select {background-color: #a3a167;color:#fff;padding: 1em 1.75em;font-size: 20px;font-family: "Bebas Neue", Arial, sans-serif;}
+			#mes_inicial {width:450px;height:60px;text-align-last:center;-moz-text-align-last:center;border:none;-moz-appearance:none;-webkit-text-align-last:center;-webkit-appearance:none;}
+			.cc-selector {width:600px;margin:0 auto;}
+			.cc-selector input{margin:0;padding:0; -webkit-appearance:none;-moz-appearance:none;appearance:none;opacity:0;-webkit-appearance:none;}
+			.parto{background-image:url(cattle.svg);}
+			.cobertura{background-image:url(cattle.svg);}
+			.desmama{background-image:url(cattle.svg);}
+			.cc-selector input:active +.drinkcard-cc {opacity: .9;}
+			.cc-selector input:checked +.drinkcard-cc {-webkit-filter: none;-moz-filter: none;filter: none;}
+			.cc-selector input:checked +.drinkcard-cc+p {color:#000;}
+			.drinkcard-cc{cursor:pointer;background-size:contain;background-repeat:no-repeat;display:inline-block;width:150px;height:150px;-webkit-transition: all 100ms ease-in;-moz-transition: all 100ms ease-in;transition: all 100ms ease-in;-webkit-filter: invert(100%);-moz-filter: invert(100%);filter: invert(100%);}
+			.drinkcard-cc:hover {-webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);-moz-filter: brightness(1.2) grayscale(.5) opacity(.9);filter: brightness(1.2) grayscale(.5) opacity(.9);}
+			.drinkcard-cc:hover+p {color:#000;}
+			input[type=range].slider{-webkit-appearance:none;width:280px;margin:12.05px 0;background:#d3af8b}
+			input[type=range].slider:focus{outline:none}
+			input[type=range].slider::-webkit-slider-runnable-track{width:100%;height:18.9px;cursor:pointer;box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0);background:#4a4d4d;border-radius:25px;border:0 solid #010101}
+			input[type=range].slider::-webkit-slider-thumb{box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0);border:0 solid rgba(0,0,0,0);height:43px;width:42px;border-radius:50px;background:rgba(255,67,95,0.93);cursor:pointer;-webkit-appearance:none;margin-top:-12.05px}
+			input[type=range].slider:focus::-webkit-slider-runnable-track{background:#727777}
+			input[type=range].slider::-moz-range-track{width:100%;height:18.9px;cursor:pointer;box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0);background:#4a4d4d;border-radius:25px;border:0 solid #010101}
+			input[type=range].slider::-moz-range-thumb{box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0);border:0 solid rgba(0,0,0,0);height:43px;width:42px;border-radius:50px;background:rgba(255,67,95,0.93);cursor:pointer}
+			input[type=range].slider::-ms-track{width:100%;height:18.9px;cursor:pointer;background:transparent;border-color:transparent;color:transparent}
+			input[type=range].slider::-ms-fill-lower{background:#222323;border:0 solid #010101;border-radius:50px;box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0)}
+			input[type=range].slider::-ms-fill-upper{background:#4a4d4d;border:0 solid #010101;border-radius:50px;box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0)}
+			input[type=range].slider::-ms-thumb{box-shadow:0 0 0 rgba(0,0,0,0),0 0 0 rgba(13,13,13,0);border:0 solid rgba(0,0,0,0);height:43px;width:42px;border-radius:50px;background:rgba(255,67,95,0.93);cursor:pointer;height:18.9px}
+			input[type=range].slider:focus::-ms-fill-lower{background:#4a4d4d}
+			input[type=range].slider:focus::-ms-fill-upper{background:#727777}
+			.gera_btn {background: #7ab5a3;border: none;color: #fff;text-transform: uppercase;font-size: 30px;padding: 15px 100px;letter-spacing: 5px;cursor: pointer;}
+			.compara_btn {background: #84825a;border: none;color: #fff;text-transform: uppercase;font-size: 20px;padding: 10px 100px;letter-spacing: 1px;cursor: pointer;display:block;margin:20px auto;}
+			.jqplot-target{ color: #ffffff !important ;}
+			.jqplot-table-legend{color: #666666 !important ;}
+			.jqplot-event-canvas {background:url(ciclo.png) no-repeat center center;background-size:40px 40px}
+			.selectmesestrategia {border:none;width:300px;height:60px;margin:10px 0;text-align-last:center;-moz-appearance:none;-moz-text-align-last:center;-webkit-appearance:none;}
+			#chart3 {height:700px; width:700px;text-align:left;background-color: #b4b282;margin-top:15px !important;margin-bottom:15px !important;}
+			.baixar {height: 80px;width: 80px;display: inline-block;border-radius: 50%;background: #fff;float: right;margin-right: 20%;cursor:pointer;}
+			.baixar img {width: 40px;vertical-align: middle;padding-top: 20px;}
+			.clear:before,.clear:after{content:"";display:table}
+			.clear:after{clear:both}
+			.clear{zoom:1}
+			.third {width:33.33%;float:left;}
+			.half {width:50%;float:left;}
+			#tabela { display: table;margin: 20px auto;text-align: center;max-width: 900px;background:#fff;border-collapse: collapse;} 
+			#tabela .row { display: table-row; } 
+			#tabela .col{ display: table-cell;padding: 20px;border-right: 2px solid #d3af8b;border-left: 2px solid #d3af8b;color: #333;width: 183px;position: relative;font-size:13px;}
+			#tabela .col:after {content:""; background: #ddd; position: absolute; top: 0; left: 20px; height: 1px; width: 183px;}
+			.col.col1 {text-align:left;display:none !important;}
+			.col h3 {font-size: 20px;font-weight: 400;padding: 20px;margin: -20px -20px 0;background-color: #eee;min-height:60px;}
+			.col .sacaria {height:185px;}
+			.rtitulo {background:#eee;color:#333;font-weight:bold;}
+			.rtitulo:after, .noborder:after {display:none;}
+			#box_foot a {cursor:pointer;}
+			.scorerange {width:500px;margin:auto;}
+			.scorerange div.range {width:50%;float:left;}
+			.scorerange div.range p {margin:0;}
+			.scorerange div.range span {font-size:40px;}
+			.jqplot-data-label {text-align: center;text-transform: uppercase;font-weight: normal;line-height: 18px;color:#f1f1f1}
+			#return {position:absolute;top:8px;left:0;visibility:hidden;cursor:pointer;}
+			#grafico {background:#b4b282;}
+			#rowfirstb .col {border-top:12px solid #fff;background:steelblue !important;border-right-color:#fff;border-left-color:#fff;padding-bottom:0;color:#fff;}
+			#consumo .col {border-bottom:12px solid #fff;background:steelblue;border-right-color:#fff;border-left-color:#fff;padding-top:0;color:#fff;font-weight:bolder;}
+			.apaga {display:none !important;}
+			
+			.pie {
+				width: 100px; height: 100px;
+				  border-radius: 50%;
+				  background: yellowgreen;
+				  display:inline-block;
+				  background-image:linear-gradient(to right, transparent 50%, #655 0);
+			  }
+			  .pie::before {
+				  content: '';
+				  display: block;
+				  margin-left: 50%;
+				  height: 100%;
+				  border-radius: 0 100% 100% 0 / 50%;
+				  background-color: inherit;
+				  transform-origin: left;
+			  }
+			  
+			  .pie0::before {transform: rotate(06deg);}
+			  .pie10::before {transform: rotate(42deg);}
+			  .pie20::before {transform: rotate(78deg);}
+			  .pie30::before {transform: rotate(114deg);}
+			  .pie40::before {transform: rotate(150deg);}
+			  .pie50::before {transform: rotate(06deg);background: #655;}
+			  .pie60::before {transform: rotate(42deg);background: #655;}
+			  .pie70::before {transform: rotate(78deg);background: #655;}
+			  .pie80::before {transform: rotate(114deg);background: #655;}
+			  .pie90::before {transform: rotate(150deg);background: #655;}
+			  
+			  p.pasto {background-color:yellowgreen;margin:0;padding:0;display:inline-block;letter-spacing:0;color:#333;font-size:13px;line-height:13px;}
+			  p.suplemento {background-color:#655;margin:0;padding:0;display:inline-block;letter-spacing:0;color:#333;font-size:13px;line-height:13px;}
+			  p.pasto b, p.suplemento b {background-color:#fff;margin-left:10px;font-weight:normal;padding-left:5px;}
+			  
+			  p#custototal {font-size: 13px;line-height: inherit;color: #333;background: #fff;margin-top: 3px;text-align: left;padding: 10px 20px;}			
+
+			@media all and (max-width: 568px) { 
+				
+				h1 {font-size:50px;line-height:50px;}
+				p {font-size:16px;margin-bottom:15px;line-height:20px;}
+				#mes_inicial {width:90%;}
+				#box_fase, #box_escore {padding-top:2rem;padding-bottom:2rem;}
+				.cc-selector {width:100%;}
+				.drinkcard-cc {width:100%;height:90px;background-position:center;}
+				.cc-selector p {letter-spacing:0;font-size:13px;}
+				.scorerange {width:90%;margin-top:30px;margin-bottom:10px;}
+				.scorerange div.range span {display:block;padding-top:8px;}
+				input[type=range].slider {width:55%;}
+				#box_gerar {padding:0;}
+				.gera_btn {padding:15px 0;letter-spacing:0;width:100%;font-size:20px;font-weight:bold;}	
+				.compara_btn {padding:10px 0;width:90%;font-size:14px;}			
+				#box_copyright {height:auto;line-height:inherit;padding-top:20px;}
+				#tabela .col {padding:10px 20px;font-size:15px;}
+				.col h3 {margin-top:-10px;}
+				#tabela .col1:after {width: 143px;}
+				#box_foot {font-size:17px;letter-spacing:0;}
+				#menu {font-size:20px;}
+				#return {width:30px;top:4px;}
+				#tabela {zoom:0.65;}
+			}
+			#menu {height:auto;line-height:inherit;}
+			@media all and (min-width: 240px) {#chart3 {height:240px; width:240px;} .jqplot-data-label {line-height:10px;font-size:8px;letter-spacing:-1px;}} 
+			@media all and (min-width: 320px) {#chart3 {height:320px; width:320px;} .jqplot-data-label {line-height:12px;font-size:10px;letter-spacing:-1px;}}
+			@media all and (min-width: 360px) {#chart3 {height:360px; width:360px;} .jqplot-data-label {line-height:12px;font-size:10px;letter-spacing:-1px;}}
+			@media all and (min-width: 384px) {#chart3 {height:384px; width:384px;} .jqplot-data-label {line-height:13px;font-size:11px;letter-spacing:-1px;}}
+			@media all and (min-width: 414px) {#chart3 {height:414px; width:414px;} .jqplot-data-label {line-height:14px;font-size:12px;letter-spacing:-1px;}}
+			@media all and (min-width: 600px) {#chart3 {height:568px; width:568px;} .jqplot-data-label {line-height:14px;font-size:12px;letter-spacing:-1px;}}
+			@media all and (min-width: 667px) {#chart3 {height:667px; width:667px;} .jqplot-data-label {line-height:16px;font-size:14px;letter-spacing:-1px;}}
+			@media all and (max-width: 900px) {#box_estrategia_content {overflow-x:scroll;}}
+
+		</style>
+	<script type="text/javascript">
+	function vtop (campo) {
+		return campo.replace(',','.');
+	}
+	function ptov (campo) {
+		return campo.toString().replace('.',',');
+	}
+	</script>
+	</head>
+	<body>
+		<div id="main">
+			<div id="menu" class="titulo1"><img src="return.gif" id="return"/>CICLO CRIA<br/><span class="titulofase"></span><span class="titulomes"></span><span class="tituloescore"></span></div>
+			<div id="box_fase">
+				<h1 class="titulo1">Fase de Produção</h1>
+				<p>Selecione a fase da Cria<br/><span style="font-size:13px">(Considerando intervalo entre partos de 12 meses e desmama aos 8 meses)</span></p></p>
+				<div class="cc-selector">
+					<div class="third">
+						<input id="parto" type="radio" name="credit-card" value="parto" />
+						<label class="drinkcard-cc parto" for="parto"></label>
+						<p><strong>PARTO</strong></p>
+					</div>
+					<div class="third">
+						<input id="cobertura" type="radio" name="credit-card" value="cobertura" />
+						<label class="drinkcard-cc cobertura" for="cobertura"></label>
+						<p><strong>COBERTURA</strong></p>
+					</div>
+					<div class="third">
+						<input id="desmama" type="radio" name="credit-card" value="desmama" />
+						<label class="drinkcard-cc desmama" for="desmama"></label>    
+						<p><strong>DESMAMA</strong></p>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div id="box_mes">
+				<h1 class="titulo1">Mês Inicial</h1>
+				<p>Selecione o mês inicial do Ciclo</p>
+				<select name="mes_inicial" id="mes_inicial">
+					<option value="0" selected>- Mês Inicial -</option>
+					<option value="1">Janeiro</option>
+					<option value="2">Fevereiro</option>
+					<option value="3">Março</option>
+					<option value="4">Abril</option>
+					<option value="5">Maio</option>
+					<option value="6">Junho</option>
+					<option value="7">Julho</option>
+					<option value="8">Agosto</option>
+					<option value="9">Setembro</option>
+					<option value="10">Outubro</option>
+					<option value="11">Novembro</option>
+					<option value="12">Dezembro</option>
+				</select>
+			</div>
+			<div id="box_escore">
+				<h1 class="titulo1">Escore da Condição Corporal</h1>
+				<p>Informe o escore do gado</p>
+				<div class="scorerange">
+					<div class="range"><p>menor<br/><span>3</span></p></div>
+					<div class="range"><p>igual/maior<br/><span>3</span></p></div>
+					<div class="clear"></div>
+				</div>	
+				<output name="escoreOutputName" id="escoreOutputId" class="ecc"></output>
+				<input type="range" name="escoreInputName" id="escoreInputId" value="5" min="4" max="6"  class="slider" >
+			</div>
+			<div id="box_gerar">
+				<button id="gera_btn" class="gera_btn">Montar Ciclo</button>
+			</div>
+			<div id="box_donut">
+				<div id="grafico">
+					<h1 class="titulo1">Ciclo Cria</h1>
+					<div class="chart3" id="chart3" style="margin:auto"></div>
+				</div>	
+					<div id="botoes">
+						<button class="compara_btn" id="compara_btn">Visualizar Estratégia de Suplementação</button>
+					</div>		
+				<div id="box_estrategia">
+					<h1 class="titulo1">Estratégia</h1>
+					<p style="font-size:13px"><em>Considerando um animal de 450 kg de peso vivo e os níveis nutricionais médios encontrados nas pastagens brasileiras.</em></p>
+					<div id="box_estrategia_content"></div>
+				</div>   
+			</div>
+		</div>
+		<div id="box_foot">
+			<div class="half" style="border-right:1px solid;width:49%">
+				<a class="titulo1" id="gorestart">Reiniciar</a>
+			</div>
+			<div class="half">
+				<a class="titulo1" id="gohome" onclick="printDiv('grafico')">Compartilhar Ciclo</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="box_copyright">
+			Copyright © 2017 Minerthal • www.minerthal.com.br
+		</div>
+		<script type="text/javascript">
+		
+		var $sizei = $('body').width();
+		var $sizei = $sizei+'px';
+		
+			function plotar() {
+				$m1 = $('#mes_inicial').val(); $me1 = GetMonthName($m1).substring(0,3);
+				$m2 = +$m1 + 1;  if ($m2 == 13) {$m2 = 1}; $me2 = GetMonthName($m2).substring(0,3);
+				$m3 = +$m2 + 1;  if ($m3 == 13) {$m3 = 1}; $me3 = GetMonthName($m3).substring(0,3);
+				$m4 = +$m3 + 1;  if ($m4 == 13) {$m4 = 1}; $me4 = GetMonthName($m4).substring(0,3);
+				$m5 = +$m4 + 1;  if ($m5 == 13) {$m5 = 1}; $me5 = GetMonthName($m5).substring(0,3);
+				$m6 = +$m5 + 1;  if ($m6 == 13) {$m6 = 1}; $me6 = GetMonthName($m6).substring(0,3);
+				$m7 = +$m6 + 1;  if ($m7 == 13) {$m7 = 1}; $me7 = GetMonthName($m7).substring(0,3);
+				$m8 = +$m7 + 1;  if ($m8 == 13) {$m8 = 1}; $me8 = GetMonthName($m8).substring(0,3);
+				$m9 = +$m8 + 1;  if ($m9 == 13) {$m9 = 1}; $me9 = GetMonthName($m9).substring(0,3);
+				$m10 = +$m9 + 1;  if ($m10 == 13) {$m10 = 1}; $me10 = GetMonthName($m10).substring(0,3);
+				$m11 = +$m10 + 1;  if ($m11 == 13) {$m11 = 1}; $me11 = GetMonthName($m11).substring(0,3);
+				$m12 = +$m11 + 1;  if ($m12 == 13) {$m12 = 1}; $me12 = GetMonthName($m12).substring(0,3);
+				
+				$f1 = $('input[name="credit-card"]:checked').val(); //Parto amarelo, cobertura azul e desmama cinza;
+				if ($f1 == 'parto') {$f2 = [['parto',1],['pós<br/>parto',1],['cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1]]; $fcolor = ["#DAA520","#DAA520","#4169E1","#4169E1","#4169E1","#4169E1","#4169E1","#778899","#778899","#778899","#778899","#778899"];$ff4=0}
+				if ($f1 == 'cobertura') {$f2 = [['cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['parto',1],['pós<br/>parto',1]]; $fcolor = ["#4169E1","#4169E1","#4169E1","#4169E1","#4169E1","#778899","#778899","#778899","#778899","#778899","#DAA520","#DAA520"];$ff4=2}	
+				if ($f1 == 'desmama') {$f2 = [['desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['pós<br/>desmama',1],['parto',1],['pós<br/>parto',1],['cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1],['pós<br/>cobertura',1]]; $fcolor = ["#778899","#778899","#778899","#778899","#778899","#DAA520","#DAA520","#4169E1","#4169E1","#4169E1","#4169E1","#4169E1"];$ff4=7}
+				
+				if ($m1 == 1) {$p1 = 4; $p2 = 5; $p3 = 3; $p4 = 0}
+				if ($m1 == 2) {$p1 = 3; $p2 = 5; $p3 = 4; $p4 = 0}
+				if ($m1 == 3) {$p1 = 2; $p2 = 5; $p3 = 5; $p4 = 0}
+				if ($m1 == 4) {$p1 = 1; $p2 = 5; $p3 = 6; $p4 = 0}
+				if ($m1 == 5) {$p1 = 0; $p2 = 5; $p3 = 7; $p4 = 0}
+				if ($m1 == 6) {$p1 = 0; $p2 = 4; $p3 = 7; $p4 = 1}
+				if ($m1 == 7) {$p1 = 0; $p2 = 3; $p3 = 7; $p4 = 2}
+				if ($m1 == 8) {$p1 = 0; $p2 = 2; $p3 = 7; $p4 = 3}
+				if ($m1 == 9) {$p1 = 0; $p2 = 1; $p3 = 7; $p4 = 4}
+				if ($m1 == 10) {$p1 = 0; $p2 = 0; $p3 = 7; $p4 = 5}
+				if ($m1 == 11) {$p1 = 6; $p2 = 5; $p3 = 1; $p4 = 0}
+				if ($m1 == 12) {$p1 = 5; $p2 = 5; $p3 = 2; $p4 = 0}
+				
+				$pt3 = ""; $pt4 = "";
+				if ($p3 == 7){$pt3 = "Águas"}	
+				if ($p4 == 5){$pt4 = "Secas"}
+				
+				$pes = $('#escoreInputId').val();
+				//console.log ($pes);
+				if ($pes == 4) {$pes = 1} else {$pes = 2}
+			
+				$codigo = $m1+$ff4+$pes;
+				//console.log ($codigo);
+			
+				$produtojson = [];
+				$corhex = [];
+				$s1 = [];
+							
+				for ($i = $m1-1; $i < 12; $i++) { //console.log ($i);
+					$produtojson[$i] = $estrategia[$codigo][$i]; //console.log ($produtojson[$i]);
+					$corhex.push($produtos[$produtojson[$i]][9]); //console.log ($corhex[$i]);								
+					$produtojson[$i] = $produtojson[$i].replace(/\s+/g, "<br/>"); //console.log ($produtojson[$i]);
+					$s1.push([$produtojson[$i],1]);
+				}
+				for ($i = 0; $i < $m1-1; $i++) {  //console.log ($i);
+					$produtojson[$i] = $estrategia[$codigo][$i]; //console.log ($produtojson[$i]);
+					$corhex.push($produtos[$produtojson[$i]][9]); //console.log ($corhex[$i]);
+					$produtojson[$i] = $produtojson[$i].replace(/\s+/g, "<br/>"); //console.log ($produtojson[$i]);
+					$s1.push([$produtojson[$i],1]);
+				}
+														
+				//console.log ($s1);
+				var s1 = $s1;
+				var s2 = [['Águas',$p1],['Secas',$p2],[$pt3,$p3],[$pt4,$p4]];
+				var s3 = $f2;
+				var s4 = [[$me1, 1], [$me2, 1], [$me3, 1], [$me4, 1], [$me5, 1], [$me6, 1], [$me7, 1], [$me8, 1], [$me9, 1], [$me10, 1], [$me11, 1], [$me12, 1]];
+
+				var plot3 = $.jqplot('chart3', [s1, s3, s2, s4], {
+					animate: true,
+					series: [
+						{seriesColors: $corhex },
+						{seriesColors: $fcolor }, //Parto amarelo, cobertura azul e desmama cinza;
+						{seriesColors: [ "#2E8B57","#DC143C","#2E8B57","#DC143C"]}, //agua/seca/agua/seca
+						{seriesColors: [ "#182A35","#1B2E3A","#1E333F","#213744","#243B49","#27404F","#2A4454","#2D4859","#304D5F","#335264","#36566A","#395B6F"]}, //mes
+			
+					],
+					seriesDefaults: {
+						show: true,
+						// make this a donut chart.
+						renderer:$.jqplot.DonutRenderer,
+						rendererOptions:{
+							// Donut's can be cut into slices like pies.
+							sliceMargin: 0,
+							// Pies and donuts can start at any arbitrary angle.
+							startAngle: -90,
+							showDataLabels: true,
+							// By default, data labels show the percentage of the donut/pie.
+							// You can show the data 'value' or data 'label' instead.
+							dataLabels: 'label', ringMargin: 1,  shadow:false, innerDiameter:60, highlightMouseOver:false, padding:0
+						}
+					},
+					grid: { 
+						background: 'transparent',      // CSS color spec for background color of grid.
+						borderWidth: 0,
+						shadow: false,
+						
+					},
+					gridPadding: {top:0, right:0, bottom:0, left:0}
+					//,legend: { show:true, location: 'e' }
+				});	
+				
+				$(window).resize(function() {
+				          plot3.replot( { resetAxes: true } );
+				    });
+			}
+		
+    	
+			
+			$('#escoreInputId').on('input', function(){
+			var ecc = $('#escoreInputId').val();
+			if (ecc == '5') {ecc = '';}
+			if (ecc == '4') {ecc = 'menor que 3';}
+			if (ecc == '6') {ecc = 'igual/maior que 3';}
+			$ecc = ecc;
+			   //$('#escoreOutputId').val(ecc);
+			});		
+			
+			function GetMonthName(monthNumber) {
+			 var months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+			 return months[monthNumber-1];
+			}
+			
+			
+			$('#mes_inicial').change(function(){ 
+			//console.log($(this).val()); // the selected options’s value
+			setTimeout(function (){
+			 $('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); // Something you want delayed.
+			}, 500); // How long do you want the delay to be (in milliseconds)? 
+			$('.titulomes').text(' • '+GetMonthName($(this).val()));
+			
+			});
+			
+			$('#box_fase input:radio').click(function(){ 
+			//console.log($(this).val()); // the selected options’s value
+			setTimeout(function (){
+			 $('html,body').animate({scrollTop: $("#box_mes").offset().top},'slow'); // Something you want delayed.
+			}, 500); // How long do you want the delay to be (in milliseconds)? 
+			$('.titulofase').text(''+$(this).val());
+			});
+			
+			$('#escoreInputId').change(function(){ 
+			//console.log($(this).val()); // the selected options’s value
+			setTimeout(function (){
+			 $('#box_gerar').show();  
+			 	  $('html,body').animate({scrollTop: $("#box_gerar").offset().top},'slow'); // Something you want delayed.
+			}, 500); // How long do you want the delay to be (in milliseconds)? 
+			if ($ecc != '3') {$('.tituloescore').text(' • '+$ecc);} else {$('.tituloescore').text(' ');}		  
+			});	
+			
+			$('#gera_btn').click(function(){   
+			//console.log('gerar');
+			if ($('#mes_inicial').val() == '0'){ alert('Selecione um mês!');$('html,body').animate({scrollTop: $("#box_mes").offset().top},'slow'); return false}
+			if ($('input[name="credit-card"]:checked').length === 0){ alert('Selecione uma fase!');$('html,body').animate({scrollTop: $("#box_fase").offset().top},'slow'); return false}
+			if ($ecc == ''){ alert('Selecione um escore!');$('html,body').animate({scrollTop: $("#box_escore").offset().top},'slow'); return false}
+			$('#box_mes,#box_fase,#box_escore,#box_gerar').hide();
+			$('#menu').toggleClass('menubranco');
+			$('#return').css('visibility','visible');
+			$('#box_donut').show();
+			$('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow');
+			plotar();
+			});  
+			
+			$('#compara_btn').click(function(){ 
+			//console.log('comparar');
+			//if ($('#estrategia1').val() == '0' /*|| $('#estrategia2').val() == '0' || $('#estrategia3').val() == '0' */){ alert('Selecione um mês!'); return false}	
+			$ajaxmes = $('#mes_inicial').val();
+			$ajaxfase = $("input[type='radio'][name='credit-card']:checked").val();
+			console.log($ajaxfase);
+			if ($ajaxfase == 'parto') {$ajaxfase = 1} else if ($ajaxfase == 'cobertura') {$ajaxfase = 3} else {$ajaxfase = 8}
+			$ajaxescore = $('#escoreInputId').val();
+			if ($ajaxescore == 4) {$ajaxescore = 1} else {$ajaxescore = 2}
+			//$ajaxestrategia1 = $('#estrategia1').val();
+			//$ajaxestrategia2 = $('#estrategia2').val();
+			//$ajaxestrategia3 = $('#estrategia3').val();
+			//console.log($ajaxmes);
+			console.log($ajaxfase);
+			//console.log($ajaxescore);
+			//console.log($ajaxestrategia1);
+			//console.log($ajaxestrategia2);
+			//console.log($ajaxestrategia3);
+			//$url = 'api.php?mes='+$ajaxmes+'&fase='+$ajaxfase+'&escore='+$ajaxescore+'&estrategia1='+$ajaxestrategia1+'&estrategia2='+$ajaxestrategia2+'&estrategia3='+$ajaxestrategia3;
+			//console.log($url);	
+			geraTabela ($ajaxmes,$ajaxfase,$ajaxescore);  
+			setTimeout(function (){
+			$('#botoes').hide();	
+			//$('#box_estrategia, #box_foot').show();  
+			$('#box_estrategia').show();  
+				  $('html,body').animate({scrollTop: $("#box_estrategia").offset().top},'slow'); // Something you want delayed.
+				$('#box_donut').css('overflow-x','scroll');
+			  }, 500); // How long do you want the delay to be (in milliseconds)? 
+			}); 
+			
+			$('#gocompare').click(function(){
+			setTimeout(function (){
+			$('#botoes').show();
+			$('#box_estrategia, #box_foot').hide(); 
+			//$('#estrategia1, #estrategia2, #estrategia3').prop('selectedIndex',0); 
+			  $('html,body').animate({scrollTop: $("#box_donut").offset().top},'slow'); // Something you want delayed.
+			 }, 500); // How long do you want the delay to be (in milliseconds)? 
+			});
+			
+			$('#gorestart').click(function(){
+			$('#menu').toggleClass('menubranco');
+			$('#return').css('visibility','hidden');
+			$('#box_estrategia_content').empty();
+			location.reload();
+			$(document).scrollTop(0);
+			});
+			
+			$('#return').click(function(){
+			$('#menu').toggleClass('menubranco');
+			$('#return').css('visibility','hidden');
+			$('#box_estrategia_content').empty();
+			location.reload();
+			$(document).scrollTop(0);
+			})
+			
+			
+			$("select.selectmesestrategia").change(function () {
+			    $("select.selectmesestrategia option[value='" + $(this).data('index') + "']").prop('disabled', false);
+			    $(this).data('index', this.value);
+			    $("select.selectmesestrategia option[value='" + this.value + "']:not([value=''])").prop('disabled', true);
+			    $(this).find("option[value='" + this.value + "']:not([value=''])").prop('disabled', false);
+			    });
+			
+				var $confirma = 'ok';
+			
+		        function printDiv(theid)
+				{
+					if ($confirma != 'ok') {
+						alert ("Deixe visivel a coluna que quer compartilhar e pressione novamente o botão Compartilhar");
+						$confirma = 'ok';
+						return false
+					}
+					html2canvas([document.getElementById(theid)], { 
+						onrendered: function(canvas)  
+						{
+							var img = canvas.toDataURL("image/png");
+							var url = 'http://www.minerthal.com.br/hotsite/app/share.php?mes='+$ajaxmes+'&fase='+$ajaxfase+'&score='+$ajaxescore;
+							window.plugins.socialsharing.share(
+								'Confira as estratégias de suplementação para este Ciclo no link:',
+								null,
+								img,
+								url);
+						}
+					});
+				}
+				
+				function gerarCusto() {
+					$produtoarray = {};
+					$nomedoproduto = [];
+					$valordoproduto = [];
+					for ($i = 1; $i < 13; $i++) { 
+						$v = ($('div#nomedoproduto div:eq('+$i+') span').html());
+						$nomedoproduto.push($v);	
+					}
+
+					$nomedoproduto = [ ...new Set($nomedoproduto) ];	
+	
+					var arrayLength = $nomedoproduto.length;
+					for (var i = 0; i < arrayLength; i++) {		
+						$produtoarray[$nomedoproduto[i]] = prompt("Informe o preço para Minerthal "+$nomedoproduto[i]+": R$ ");
+					}
+
+					console.log($produtoarray);
+					$v6 = 0;
+					for ($i = 1; $i < 13; $i++) { 
+						$v = vtop($('div#consumo div:eq('+$i+') span').html()); //consumo
+						$v2 = ($('div#nomedoproduto div:eq('+$i+') span').html()); //nome do produto
+						$v2 = $produtoarray[$v2];
+						$v3 = ((parseFloat($v)/30000)*parseFloat($v2)).toFixed(2);
+						$posi = ($i+parseFloat($mesjs)-2); if ($posi > 11) {$posi=($posi-12);} 
+	
+						$v4 = ($('div#month div:eq('+$i+')').html());
+	
+						$dias = 30;
+						if ($v4 == 'janeiro' || $v4 == 'março' || $v4 == 'maio' || $v4 == 'julho' || $v4 == 'agosto' || $v4 == 'outubro' || $v4 == 'dezembro') { $dias = 31; }
+						if ($v4 == 'fevereiro') { $dias = 28;}
+	
+						$v5 = ($v3*$dias).toFixed(2);
+							
+						$v6 = (parseFloat($v6)+parseFloat($v5));
+	
+						$('div#custo div:eq('+$i+')').html('R$ <span>'+ptov($v3)+'</span>/dia<br/>R$ <span>'+ptov($v5)+'</span>/mês');	
+						$('div#custotitle div:eq('+$i+') span').html('R$ '+$v2);
+					}
+	
+					$('p#custototal').html('<strong>Custo/Ano:</strong> R$ '+ptov((($v6).toFixed(2)).toString())+'<br/><strong>Média/Dia:</strong> R$ '+ptov((($v6/365).toFixed(2)).toString()));
+	
+					$('#boxcusto').hide();
+					$('#custotitle, #custo, #custototal').show();
+	
+				}
+				
+		</script>
+		<a href="index.html"><img src="address-icon.png" style="position:fixed;bottom:0;right:0;width:50px"></a>
+	</body>
+</html>
