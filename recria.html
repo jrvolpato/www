@@ -197,11 +197,11 @@
 				<div class="col50">
 					<img src="cattleout.png"/>
 					<h1 class="titulo1 small">Saida</h1>
-					<input type="number" name="pesosaida" id="pesosaida" value="" class="idade" min="1" onblur="rolatela('#box_custo');$('.titulosaida').text(' • '+($(this).val())+' Kg');"/>
+					<input type="number" name="pesosaida" id="pesosaida" value="" class="idade" min="1" onblur="rolatela('#box_gerar');$('.titulosaida').text(' • '+($(this).val())+' Kg');"/>
 				</div>
 				<div class="clear"></div>	
 			</div>
-			
+			<!--
 			<div id="box_custo">
 				<h1 class="titulo1">Custo</h1>
 				<p>				
@@ -244,7 +244,7 @@
 					
 				</div>
 			</div>	
-			
+			-->
 			<div id="box_gerar">
 				<button id="gera_btn" class="gera_btn">Montar Ciclos</button>
 			</div>
@@ -334,7 +334,7 @@ function plotar(){
 
 		tabela1 = '<div class="outtabela wrapper" id="line_'+$x+'">';
 		tabela1 += '<div class="container">';
-		tabela1 += '<div class="innertabela">';
+		tabela1 += '<div class="innertabela inn'+$add+'">';
 		tabela1 += '<span><h3>Minerthal '+$estrategarecria+'</h3></span>';
 		tabela1 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(/[^\w ]/g, function(char) {return $dict[char] || char;}).replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
 		tabela1 += '<span class="divisao mes">'+$mesdoano+'</span>';
@@ -346,7 +346,7 @@ function plotar(){
 		tabela1 += '<span class="divisao">GMD '+$gmd.toFixed(2).replace(".", ",")+' kg/dia</span>';
 		tabela1 += '<span class="divisao evol">'+$evolucao+'</span>';
 		tabela1 += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos">'+$evolucaodeganho.toFixed(2)+'</div>kg</span>';
-		tabela1 += '<span class="blue">Consumo Produto<br/>'+$consumosuplemento.toFixed(2).replace(".", ",")+'g/dia</span>';
+		tabela1 += '<span class="blue">Consumo Produto<br/>'+$consumosuplemento.toFixed(2).replace(".", ",")+'g/dia<input type="hidden" class="u" name="u" value="'+$consumosuplemento+'" /></span>';
 		tabela1 += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';
 		tabela1 += '<span class="divisao">'+$calcio.toFixed(2).replace(".", ",")+'g Ca</span>';
 		tabela1 += '<span class="divisao">'+$fosforo.toFixed(2).replace(".", ",")+'g P</span>';
@@ -428,7 +428,7 @@ function plotar(){
 
 			$grafico[$x].push($evolucaodeganho);	
 
-			tabela2 = '<div class="innertabela">';
+			tabela2 = '<div class="innertabela inn'+$add+'">';
 			tabela2 += '<span><h3>Minerthal '+$estrategarecria+'</h3></span>';
 			tabela2 += '<span class="nopadding"><img src="'+(($estrategarecria.replace(/[^\w ]/g, function(char) {return $dict[char] || char;}).replace(' ', '-')).toLowerCase())+'.jpeg" alt="" title=""/></span>';
 			tabela2 += '<span class="divisao mes">'+$mesdoano+'</span>';
@@ -440,7 +440,7 @@ function plotar(){
 			tabela2 += '<span class="divisao">GMD '+$gmd.toFixed(2).replace(".", ",")+' kg/dia</span>';
 			tabela2 += '<span class="divisao evol">'+$evolucao+'</span>';
 			tabela2 += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos">'+$evolucaodeganho.toFixed(2)+'</div>kg</span>';
-			tabela2 += '<span class="blue">Consumo Produto<br/>'+$consumosuplemento.toFixed(2).replace(".", ",")+'g/dia</span>';
+			tabela2 += '<span class="blue">Consumo Produto<br/>'+$consumosuplemento.toFixed(2).replace(".", ",")+'g/dia<input type="hidden" class="u" name="u" value="'+$consumosuplemento+'" /></span>';
 			tabela2 += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';
 			tabela2 += '<span class="divisao">'+$calcio.toFixed(2).replace(".", ",")+'g Ca</span>';
 			tabela2 += '<span class="divisao">'+$fosforo.toFixed(2).replace(".", ",")+'g P</span>';
@@ -480,13 +480,15 @@ function plotar(){
 		$custodosuplemento = $arroba;
 		$custoengordada = (($rstotal + $custodopasto + $custofinanceirosimples ) / ($diferenca/30));
 		
-		
+		$('#line_'+$x).append('<div id="custototal'+$x+'" class="custototal'+$x+'" style="display:none"></div>');			
 		$('#line_'+$x).append('<div class="clear"></div></div>');
 		if ($('#okcusto').is(":checked")) {	
 			//$('#line_'+$x).append('<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+Number($rstotal).toFixed(2).replace(".", ",")+'<br/><strong>Custo do Suplemento (R$/@engordada)</strong>: R$'+Number($arroba).toFixed(2).replace(".", ",")+'</p>');
 			$('#line_'+$x).append('<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+Number($rstotal).toFixed(2).replace(".", ",")+'<br/><strong>Custo Médio do Suplemento por mês</strong>: R$' + ($rstotal/$add).toFixed(2).replace(".", ",")+'<br/><strong>Custo da @ Engordada Total (Pasto + Suplemento+Financeiro)</strong>: R$' + $custoengordada.toFixed(2).replace(".", ",")+'</p>');
 		}	
 		$('#line_'+$x).append('</div>');
+		
+		$('#line_'+$x).append('<div id="boxcusto"><h1 class="titulo1">Custo</h1><p>Clique no botão para visualizar os custos mensais para o Ciclo acima.<br/>Atenção: Você precisará informar o valor dos produtos para gerar a tabela!</p><button id="gera_btn_custo" class="gera_btn" onClick="gerarCusto('+$x+');">Gerar Custo</button></div>');		
 		//console.log($grafico[$x]);
 		//console.log($custodopasto);	
 		//console.log($custofinanceirosimples);
@@ -563,8 +565,8 @@ function plotar(){
 		
 		tabelahtml = '<div class="outtabela wrapper" id="line_5">';
 		tabelahtml += '<div class="container">';
-		tabelahtml += '<div class="innertabela">';	
-		tabelahtml += '<span><select class="escolhaproduto" name="escolhaproduto"><option value="">PRODUTO</option><option value="Linea 40">Minerthal Linea 40</option><option value="Linea 60">Minerthal Linea 60</option><option value="Engorda MD">Minerthal Engorda MD</option><option value="Terminação MD">Minerthal Terminação MD</option><option value="Proteico Águas">Minertec Proteico Águas</option><option value="Pró-Engorda">Minerthal Pró-Engorda</option><option value="MD Seca">Minerthal MD Seca</option><option value="Minerseca">Minerseca</option><option value="Pró-Águas">Minerthal Pró-Águas</option><option value="Ureia 20">Minerthal Ureia 20</option><option value="Pró-Secas">Minerthal Pró-Secas</option></select></span>';
+		tabelahtml += '<div class="innertabela inn1">';
+		tabelahtml += '<span><select class="escolhaproduto" name="escolhaproduto"><option value="">PRODUTO</option><option value="Linea 40">Minerthal Linea 40</option><option value="Linea 60">Minerthal Linea 60</option><option value="Engorda MD">Minerthal Engorda MD</option><option value="Terminação MD">Minerthal Terminação MD</option><option value="Proteico Águas">Minerthal Proteico Águas</option><option value="Pró-Engorda">Minerthal Pró-Engorda</option><option value="MD Seca">Minerthal MD Seca</option><option value="Minerseca">Minerseca</option><option value="Pró-Águas">Minerthal Pró-Águas</option><option value="Ureia 20">Minerthal Ureia 20</option><option value="Pró-Secas">Minerthal Pró-Secas</option></select><input type="hidden" value="" class="hescolhaproduto"/></span>';
 		tabelahtml += '<span class="nopadding"><img src="" alt="" title=""/></span>';		
 		tabelahtml += '<span class="divisao mes mesdoano" rel="'+$mesentrada+'">'+$mesdoano+'</span>'; //mês do ano: 
 		tabelahtml += '<span class="divisao">'+$periodo+'</span>';	
@@ -576,7 +578,7 @@ function plotar(){
 		tabelahtml += '<span class="divisao">GMD <div class="a11"></div> kg/dia</span>'; //GMD: 
 		tabelahtml += '<span class="divisao evol"><div class="a3"></div></span>'; //Evolução Categoria Animal: 
 		tabelahtml += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos a4" rel=""></div>kg</span>'; //Evolução do Ganho: 
-		tabelahtml += '<span class="blue">Consumo Produto<br/><div class="a5"></div>g/dia</span>'; //Consumo Suplemento (g/dia): 
+		tabelahtml += '<span class="blue">Consumo Produto<br/><div class="a5"></div>g/dia</span><input type="hidden" class="u" name="u" value="" />'; //Consumo Suplemento (g/dia): 
 		tabelahtml += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';		
 		tabelahtml += '<span class="divisao"><div class="a6"></div>g Ca</span>'; //Cálcio (g): 
 		tabelahtml += '<span class="divisao"><div class="a7"></div>g P</span>'; //Fósforo (g): 
@@ -655,6 +657,8 @@ function plotar(){
 					$youcustoengordada = (($sum + $youcustodopasto + $youcustofinanceirosimples ) / ($diferenca/30));
 					$("#line_5 .container").append('<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+$sum.toFixed(2).replace(".", ",")+'<br/><strong>Custo Médio do Suplemento por mês</strong>: R$' + ($sum/$add).toFixed(2).replace(".", ",")+'<br/><strong>Custo do Suplemento (R$/@engordada)</strong>: R$ '+($youcustoengordada).toFixed(2).replace(".", ",")+'</p>');
 				}
+				$('#line_5').append('<div id="custototal5" class="custototal5" style="display:none"></div><div class="clear"></div>');			
+				$('#line_5').append('<div id="boxcusto"><h1 class="titulo1">Custo</h1><p>Clique no botão para visualizar os custos mensais para o Ciclo acima.<br/>Atenção: Você precisará informar o valor dos produtos para gerar a tabela!</p><button id="gera_btn_custo" class="gera_btn" onClick="gerarCusto(5);">Gerar Custo</button></div>');									
 			}
 	
 		});
@@ -688,8 +692,8 @@ function plotar(){
 			$diasnomes = $peso[$mesentrada][2]; //31
 			$periodo = $epoca[$mesentrada-1]; //secas
 	
-			tabelahtml = '<div class="innertabela">';
-			tabelahtml += '<span><select class="escolhaproduto" name="escolhaproduto"><option value="">PRODUTO</option><option value="Linea 40">Minerthal Linea 40</option><option value="Linea 60">Minerthal Linea 60</option><option value="Engorda MD">Minerthal Engorda MD</option><option value="Terminação MD">Minerthal Terminação MD</option><option value="Proteico Águas">Minertec Proteico Águas</option><option value="Pró-Engorda">Minerthal Pró-Engorda</option><option value="MD Seca">Minerthal MD Seca</option><option value="Minerseca">Minerseca</option><option value="Pró-Águas">Minerthal Pró-Águas</option><option value="Ureia 20">Minerthal Ureia 20</option><option value="Pró-Secas">Minerthal Pró-Secas</option></select></span>';
+			tabelahtml = '<div class="innertabela inn'+($add+1)+'">';
+			tabelahtml += '<span><select class="escolhaproduto" name="escolhaproduto"><option value="">PRODUTO</option><option value="Linea 40">Minerthal Linea 40</option><option value="Linea 60">Minerthal Linea 60</option><option value="Engorda MD">Minerthal Engorda MD</option><option value="Terminação MD">Minerthal Terminação MD</option><option value="Proteico Águas">Minerthal Proteico Águas</option><option value="Pró-Engorda">Minerthal Pró-Engorda</option><option value="MD Seca">Minerthal MD Seca</option><option value="Minerseca">Minerseca</option><option value="Pró-Águas">Minerthal Pró-Águas</option><option value="Ureia 20">Minerthal Ureia 20</option><option value="Pró-Secas">Minerthal Pró-Secas</option></select><input type="hidden" value="" class="hescolhaproduto"/></span>';
 			tabelahtml += '<span class="nopadding"><img src="" alt="" title=""/></span>';
 			tabelahtml += '<span class="divisao mes mesdoano" rel="'+$mesentrada+'">'+$mesdoano+'</span>';
 			tabelahtml += '<span class="divisao">'+$periodo+'</span>';	
@@ -701,7 +705,7 @@ function plotar(){
 			tabelahtml += '<span class="divisao">GMD <div class="a11"></div> kg/dia</span>'; //GMD: 
 			tabelahtml += '<span class="divisao evol"><div class="a3"></div></span>';
 			tabelahtml += '<span class="impact">Evolução do Ganho<br/><img class="cattle" src="cattle.png"><div class="ganhos a4" rel=""></div>kg</span>';
-			tabelahtml += '<span class="blue">Consumo Produto<br/><div class="a5"></div>g/dia</span>';
+			tabelahtml += '<span class="blue">Consumo Produto<br/><div class="a5"></div>g/dia</span><input type="hidden" class="u" name="u" value="" />';
 			tabelahtml += '<span class="theader">Consumo de Nutrientes via Suplemento</span>';		
 			tabelahtml += '<span class="divisao"><div class="a6"></div>g Ca</span>'; //Cálcio (g): 
 			tabelahtml += '<span class="divisao"><div class="a7"></div>g P</span>'; //Fósforo (g): 
@@ -792,6 +796,7 @@ $(document).on('change', '.escolhaproduto', function() {
 	$('.a3').last().html($evolucao);
 	$('.a4').last().html($evolucaodeganho.toFixed(2));
 	$('.a5').last().html($consumosuplemento.toFixed(2).replace(".", ","));
+	$('.u').last().val($consumosuplemento);
 	$('.a6').last().html($calcio.toFixed(2).replace(".", ","));
 	$('.a7').last().html($fosforo.toFixed(2).replace(".", ","));
 	$('.a8').last().html($proteinabruta.toFixed(2).replace(".", ","));
@@ -818,6 +823,7 @@ $(document).on('change', '.escolhaproduto', function() {
 	$('.atfosforo').last().addClass("pie"+(Math.floor(($atfosforosup/10))*10));
 	$('.atenergia').last().addClass("pie"+(Math.floor(($atenergiasup/10))*10));
 	$('.nopadding img').last().attr("src",(($estrategarecria.replace(/[^\w ]/g, function(char) {return $dict[char] || char;}).replace(' ', '-')).toLowerCase())+".jpeg");
+	$('.hescolhaproduto').last().val($(this).val());
 
 });
 
@@ -986,6 +992,99 @@ $('#chart3').empty();
 location.reload();
 $(document).scrollTop(0);
 })
+
+function gerarCusto(wh) {
+	$produtoarray = {};
+	$nomedoproduto = [];
+	$valordoproduto = [];
+	
+	var numItems = $('#line_'+wh+' .container .innertabela').length; 
+	console.log(numItems);
+	
+	for ($i = 1; $i < (numItems+1); $i++) { 
+		$v = ($('#line_'+wh+' .container .inn'+$i+' span h3').html());
+		
+		if (wh == 5) {
+			$v = ($('#line_5 .inn'+$i+' .hescolhaproduto').val());
+		}
+		
+		$nomedoproduto.push($v);	
+	}
+	
+	console.log($nomedoproduto);
+
+	$nomedoproduto = [ ...new Set($nomedoproduto) ];	
+
+	var arrayLength = $nomedoproduto.length;
+	for (var i = 0; i < arrayLength; i++) {		
+		$produtoarray[$nomedoproduto[i]] = prompt("Informe o preço para Minerthal "+$nomedoproduto[i]+": R$ ").replace(",", ".");
+	}
+	
+	$ocustopasto = prompt("Informe o Custo do Pasto (R$/mês)").replace(",", ".");
+	$ovalordeentrada = prompt("Valor de Entrada (R$)").replace(",", ".");
+	
+
+	console.log($produtoarray);
+	tabela3 = '';
+	$qtdiastotal = 0;
+	$rstotal = 0;
+	
+	for ($i = 1; $i < (numItems+1); $i++) { 
+		
+		$estrategarecria = ($('#line_'+wh+' .container .inn'+$i+' span h3').html()); //nome do produto
+		
+		if (wh == 5) {
+			$estrategarecria = ($('#line_5 .inn'+$i+' .hescolhaproduto').val());
+		}
+		
+		
+		$v2 = $produtoarray[$estrategarecria];
+		
+		$v3 = ($('#line_'+wh+' .container .inn'+$i+' input.u').val());
+		console.log($v3);
+		
+		$v4 = ($('#line_'+wh+' .container .inn'+$i+' span.mes').html());
+		$dias = 30;
+		if ($v4 == 'janeiro' || $v4 == 'março' || $v4 == 'maio' || $v4 == 'julho' || $v4 == 'agosto' || $v4 == 'outubro' || $v4 == 'dezembro') { $dias = 31; }
+		if ($v4 == 'fevereiro') { $dias = 28;}
+		console.log($v4);
+		$qtdiastotal = ($qtdiastotal + $dias);
+		
+		$kgmes = $v3/$dias;
+		
+		$rsmes = ($v2/30*$v3/1000)*$dias;
+		
+		$rstotal = ($rstotal + $rsmes);
+		
+		
+		tabela3 += '<div class="innertabela inn'+$i+'">';
+		tabela3 += '<span class="theader" style="border-top:10px solid #d3af8b">ESTRATÉGIA<br/>'+$estrategarecria+'<br/>Valor: R$ '+$v2.replace(".", ",")+'</span>';
+		tabela3 += '<span>Consumo: '+$kgmes.toFixed(2).replace(".", ",")+' kg/mês<br/>Custo: '+Number($rsmes).toFixed(2).replace(".", ",")+' R$ /mês</span>';
+		tabela3 += '</div>';
+	}
+	
+	$arroba = ($rstotal/($diferenca/30));
+	console.log($arroba);
+	$custodopasto = (Number($ocustopasto * $qtdiastotal) / 30.5);
+	console.log($custodopasto);
+	$custofinanceirosimples = $ovalordeentrada * numItems * 0.01;
+	console.log($custofinanceirosimples);
+	$custodosuplemento = $arroba;
+	console.log($custodosuplemento);
+	$custoengordada = (($rstotal + $custodopasto + $custofinanceirosimples ) / ($diferenca/30));
+	console.log($custoengordada);
+	
+	tabela3 += '<div class="clear"></div>';
+	tabela3 += '<p class="custototal"><strong>Custo do Suplemento Total:</strong> R$ '+Number($rstotal).toFixed(2).replace(".", ",")+'<br/><strong>Custo Médio do Suplemento por mês</strong>: R$' + ($rstotal/numItems).toFixed(2).replace(".", ",")+'<br/><strong>Custo da @ Engordada Total (Pasto + Suplemento+Financeiro)</strong>: R$' + $custoengordada.toFixed(2).replace(".", ",")+'</p>';
+		
+		
+    $('#custototal'+wh).width(($('#line_'+wh+' .innertabela').length)*200);
+	$('#custototal'+wh).append(tabela3);
+
+	$('#line_'+wh+' #boxcusto').hide();
+	$('#custototal'+wh).show();
+	
+}
 
 </script>
 
