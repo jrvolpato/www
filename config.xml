@@ -4,8 +4,8 @@
 	xmlns:gap = "http://phonegap.com/ns/1.0"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	id        = "br.com.minerthal.ciclo"
-	versionCode="2"
-	version   = "2.0.0">
+	versionCode="3"
+	version   = "3.0.0">
     
 	<name>Ciclo Minerthal</name>
     <description>Ciclo Minerthal Cria/Vaca</description>    
