@@ -58,7 +58,7 @@
 		.jqplot-table-legend{color: #666666 !important ;}
 		.chart3 {width:1200px;text-align:left;background-color: #b4b282;margin-top:15px !important;margin-bottom:15px !important;}
 		.legenda {width:80%;margin:20px auto;}
-		.legenda .fifth {width:18%;float:left;padding:1%;color:#fff;text-transform:uppercase;font-weight:bold;cursor:pointer;}
+		.legenda .fifth {width:18%;float:left;padding:0 1%;color:#fff;text-transform:uppercase;font-weight:bold;cursor:pointer;line-height:40px;height:40px;}
 		.convencional {background:blue;}
 		.aditivada  {background:goldenrod;}
 		.proteico {background:red;}
@@ -136,7 +136,7 @@
 			.compara_btn {padding:10px 0;width:90%;font-size:14px;}			
 			#box_copyright {height:auto;line-height:inherit;padding-top:20px;}
 			#box_foot {font-size:17px;letter-spacing:0;}
-			#menu {font-size:16px !important}
+			#menu {font-size:14px !important}
 			#return {width:30px;top:4px;}
 			input.idade {width:50%;}
 			.legenda {width:100%;}
@@ -856,18 +856,18 @@ function atualizagrafico() {
 		            //location: 'ne',
 		           // rowSpacing: '0px'
 		        },
-				gridPadding: { right: 0 },
+				gridPadding: { right: 0 , left:0},
 				
 		axes:{
 		        xaxis:{
 		          label:'Meses',
 		          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-				  min:0
+				  min:0, pad: 0
 		        },
 		        yaxis:{
 		          label:'Kg',
 		          labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-				  min:0
+				  min:0, pad: 0
 		        }
 		      },
 			  canvasOverlay: {
